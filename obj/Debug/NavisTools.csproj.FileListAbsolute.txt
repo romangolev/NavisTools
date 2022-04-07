@@ -1,0 +1,6 @@
+C:\Users\rogolev\Documents\github\romangolev\NavisTools\obj\Debug\NavisTools.csproj.AssemblyReference.cache
+C:\Users\rogolev\Documents\github\romangolev\NavisTools\obj\Debug\NavisTools.csproj.CoreCompileInputs.cache
+C:\Users\rogolev\Documents\github\romangolev\NavisTools\Debug\NavisTools.RG.dll
+C:\Users\rogolev\Documents\github\romangolev\NavisTools\Debug\NavisTools.RG.pdb
+C:\Users\rogolev\Documents\github\romangolev\NavisTools\obj\Debug\NavisTools.RG.dll
+C:\Users\rogolev\Documents\github\romangolev\NavisTools\obj\Debug\NavisTools.RG.pdb
