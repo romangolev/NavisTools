@@ -9,8 +9,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Autodesk, Inc.")]
-[assembly: AssemblyProduct("BasicPlugIn")]
-[assembly: AssemblyCopyright("Copyright © Autodesk, Inc. 2009")]
+[assembly: AssemblyProduct("NavisTools")]
+[assembly: AssemblyCopyright("Copyright © Roman Golev, 2022")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("c7e24fb0-1636-48ce-a9db-4d5d8ede23cc")]
+[assembly: Guid("55ff6cfc-19da-4a36-aaad-e0b7feeab7db")]
 
 // Version information for an assembly consists of the following four values:
 //
