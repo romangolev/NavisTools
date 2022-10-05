@@ -24,6 +24,19 @@ ID_Button_1.ExtendedToolTip=
 More information about Button 1
 
 #
+# Button 1A localised text
+#
+ID_Button_1A.DisplayName=
+Button 1A US
+
+ID_Button_1.ToolTip=
+Button A1 ToolTip
+
+ID_Button_1.ExtendedToolTip=
+More information about Button 1
+
+
+#
 # Button 2 localised text
 #
 ID_Button_2.DisplayName=

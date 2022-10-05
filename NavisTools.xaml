@@ -54,8 +54,12 @@
                                       KeyTip="B1"
                                       ShowText="True" 
                                       Orientation="Vertical"/>
-
-            <!-- Example of Panel container that shows small buttons in a vertical row. -->
+            <local:NWRibbonButton x:Uid="Button_1A" Id="ID_Button_1A"
+                                    Size="Large"
+                                    KeyTip="B1"
+                                    ShowText="True" 
+                                    Orientation="Vertical"/>
+                <!-- Example of Panel container that shows small buttons in a vertical row. -->
             <RibbonRowPanel x:Uid="RibbonRowPanel_1">
                <!--  Small buttons, text displayed horizontally to the right hand side -->
                <local:NWRibbonButton x:Uid="Button_2" Id="ID_Button_2"

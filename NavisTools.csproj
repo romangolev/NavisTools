@@ -43,6 +43,14 @@
       <HintPath>C:\Program Files\Autodesk\Navisworks Manage 2022\Autodesk.Navisworks.Api.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Autodesk.Navisworks.ComApi">
+      <HintPath>..\..\..\..\..\..\Program Files\Autodesk\Navisworks Manage 2022\Autodesk.Navisworks.ComApi.dll</HintPath>
+    </Reference>
+    <Reference Include="Autodesk.Navisworks.Interop.ComApi">
+      <HintPath>..\..\..\..\..\..\Program Files\Autodesk\Navisworks Manage 2022\Autodesk.Navisworks.Interop.ComApi.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -53,6 +61,7 @@
   <ItemGroup>
     <Compile Include="CustomRibbonCommandHandler.cs" />
     <Compile Include="Helper.cs" />
+    <Compile Include="ParentToParam.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

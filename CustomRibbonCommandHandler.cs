@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
+using Autodesk.Navisworks.Api;
 using Autodesk.Navisworks.Api.Plugins;
+using Autodesk.Navisworks.Api.Interop.ComApi;
+using ComApiBridge = Autodesk.Navisworks.Api.ComApi.ComApiBridge;
 
 
 namespace NavisTools
@@ -99,6 +102,7 @@ namespace NavisTools
     /// call the CanExecuteCommand method defined by the plugin author.
     /// </summary>
     [Command("ID_Button_1", DisplayName = "Button 1 non-localized", Icon = "One_16.ico", LargeIcon = "One_32.ico", ToolTip = "Button 1 - non-localized", ExtendedToolTip = "Extended Button 1 tooltip - non-localized")]
+    [Command("ID_Button_1A", DisplayName = "Button 1A non-localized", Icon = "One_16.ico", LargeIcon = "One_32.ico", ToolTip = "Button 1A - non-localized", ExtendedToolTip = "Extended Button 1A tooltip - non-localized")]
     [Command("ID_Button_2", CanToggle = true, Shortcut = "Shift+X")]
     [Command("ID_Button_3", CanToggle = true, Shortcut = "Shift+Z")]
     [Command("ID_Button_4", LoadForCanExecute = true)]
@@ -137,12 +141,62 @@ namespace NavisTools
         /// plugin author then it can be used to return additional information.</returns>
         public override int ExecuteCommand(string commandId, params string[] parameters)
         {
+            // current document (.NET)
+            Document doc = Autodesk.Navisworks.Api.Application.ActiveDocument;
+            // current document (COM)
+            InwOpState10 cdoc = ComApiBridge.State;
+            // current selected items
+            ModelItemCollection items = doc.CurrentSelection.SelectedItems;
+
+
+
             switch (commandId)
             {
                 case "ID_Button_1":
                     try
                     {
                         Helper.ShowMyDialog("Объем выборки", Helper.tostring(Helper.get_parameter("Объект", "Объем", "м3")), "Объем = \n", "м3");
+                        return 0;
+                    }
+                    catch (Exception ex)
+                    {
+                        int num = (int)MessageBox.Show(ex.Message);
+                        return 0;
+                    }
+                case "ID_Button_1A":
+                    try
+                    {
+                        MessageBox.Show(Autodesk.Navisworks.Api.Application.Gui.MainWindow, "Changing selection to parents");
+                        //ParentToParam.SelectParents();
+
+                        //Autodesk.Navisworks.Api.Application.ActiveDocument.CurrentSelection.SelectAll();
+                       // ModelItemCollection oModelColl = Autodesk.Navisworks.Api.Application.ActiveDocument.CurrentSelection.SelectedItems;
+
+                        foreach (ModelItem item in items)
+                        {
+                            // convert ModelItem to COM Path
+                            InwOaPath citem = (InwOaPath)ComApiBridge.ToInwOaPath(item);
+                            // Get item's PropertyCategoryCollection
+                            InwGUIPropertyNode2 cpropcates = (InwGUIPropertyNode2)cdoc.GetGUIPropertyNode(citem, true);
+                            // create a new Category (PropertyDataCollection)
+                            InwOaPropertyVec newcate = (InwOaPropertyVec)cdoc.ObjectFactory(nwEObjectType.eObjectType_nwOaPropertyVec, null, null);
+                            // create a new Property (PropertyData)
+                            InwOaProperty newprop = (InwOaProperty)cdoc.ObjectFactory(nwEObjectType.eObjectType_nwOaProperty, null, null);
+                            // set PropertyName
+                            newprop.name = "ParentName" + "_InternalName";
+                            // set PropertyDisplayName
+                            newprop.UserName = "ParentName";
+                            // set PropertyValue
+                            if (item.Parent != null)
+                            {
+                                newprop.value = item.Parent.DisplayName;
+                            }
+                            // add PropertyData to Category
+                            newcate.Properties().Add(newprop);
+                            // add CategoryData to item's CategoryDataCollection
+                            cpropcates.SetUserDefined(0, "RHI", "RHI" + "_InternalName", newcate);
+                        }
+
                         return 0;
                     }
                     catch (Exception ex)
