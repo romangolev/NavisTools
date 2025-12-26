@@ -1,8 +1,0 @@
-C:\Program Files\Autodesk\Navisworks Manage 2022\api\NET\examples\Basic Examples\CSharp\CustomRibbon\Debug\CustomRibbon.name
-C:\Program Files\Autodesk\Navisworks Manage 2022\api\NET\examples\Basic Examples\CSharp\CustomRibbon\Debug\CustomRibbon.xaml
-C:\Program Files\Autodesk\Navisworks Manage 2022\api\NET\examples\Basic Examples\CSharp\CustomRibbon\Debug\CustomRibbon.ADSK.dll
-C:\Program Files\Autodesk\Navisworks Manage 2022\api\NET\examples\Basic Examples\CSharp\CustomRibbon\Debug\CustomRibbon.ADSK.pdb
-C:\Program Files\Autodesk\Navisworks Manage 2022\api\NET\examples\Basic Examples\CSharp\CustomRibbon\obj\Debug\CustomRibbon.csproj.AssemblyReference.cache
-C:\Program Files\Autodesk\Navisworks Manage 2022\api\NET\examples\Basic Examples\CSharp\CustomRibbon\obj\Debug\CustomRibbon.csproj.CoreCompileInputs.cache
-C:\Program Files\Autodesk\Navisworks Manage 2022\api\NET\examples\Basic Examples\CSharp\CustomRibbon\obj\Debug\CustomRibbon.ADSK.dll
-C:\Program Files\Autodesk\Navisworks Manage 2022\api\NET\examples\Basic Examples\CSharp\CustomRibbon\obj\Debug\CustomRibbon.ADSK.pdb
