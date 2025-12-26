@@ -17,16 +17,16 @@ namespace NavisTools
         public static void SelectParents()
         {
             ModelItemCollection selectionModelItems = new ModelItemCollection();
-            Autodesk.Navisworks.Api.Application.ActiveDocument.CurrentSelection.SelectedItems.CopyTo(
+            Application.ActiveDocument.CurrentSelection.SelectedItems.CopyTo(
             selectionModelItems);
 
             //Clear the current selection
-            Autodesk.Navisworks.Api.Application.ActiveDocument.CurrentSelection.Clear();
+            Application.ActiveDocument.CurrentSelection.Clear();
             //iterate through the ModelItem's in the selection
             foreach (ModelItem modelItem in selectionModelItems)
             {
                 //Add parent to selection
-                Autodesk.Navisworks.Api.Application.ActiveDocument.CurrentSelection.Add(modelItem.Parent);
+                Application.ActiveDocument.CurrentSelection.Add(modelItem.Parent);
             }
 
         }

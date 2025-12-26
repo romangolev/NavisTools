@@ -197,6 +197,34 @@
             
          </RibbonPanelSource>
       </RibbonPanel>
+      <RibbonPanel x:Uid="RibbonPanel_3" >
+		  <RibbonPanelSource x:Uid="Tools" KeyTip="C1" Title="Get Volume">
+			  <local:NWRibbonButton x:Uid="Button_1" Id="ID_Button_11"
+						  Size="Large"
+						  KeyTip="B1"
+						  ShowText="True"
+						  Text="Volume"
+						  Orientation="Vertical"/>
+			  <local:NWRibbonButton x:Uid="Button_2" Id="ID_Button_12"
+						  Size="Large"
+						  KeyTip="B1"
+						  ShowText="True"
+						  Text="Area"
+						  Orientation="Vertical"/>
+			  <local:NWRibbonButton x:Uid="Button_3" Id="ID_Button_13"
+						  Size="Large"
+						  KeyTip="B1"
+						  ShowText="True"
+						  Text="Length"
+						  Orientation="Vertical"/>
+			  <local:NWRibbonButton x:Uid="Button_4" Id="ID_Button_14"
+						  Size="Large"
+						  KeyTip="B1"
+						  ShowText="True"
+						  Text="Count"
+						  Orientation="Vertical"/>
+		  </RibbonPanelSource>
+      </RibbonPanel>
    </RibbonTab>
 <!-- BEGIN STANDARD SECTION DO NOT EDIT -->
 </RibbonControl>
