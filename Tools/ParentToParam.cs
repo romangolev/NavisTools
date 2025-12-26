@@ -28,14 +28,11 @@ namespace NavisTools
                 //Add parent to selection
                 Application.ActiveDocument.CurrentSelection.Add(modelItem.Parent);
             }
-
         }
 
         public static void CreateParameter()
         {
 
         }
-
-
     }
 }
