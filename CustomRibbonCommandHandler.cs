@@ -1,10 +1,8 @@
 ﻿using Autodesk.Navisworks.Api;
 using Autodesk.Navisworks.Api.Interop.ComApi;
 using Autodesk.Navisworks.Api.Plugins;
+using NavisTools.UI;
 using System;
-using System.Drawing;
-using System.Globalization;
-using System.Linq;
 using System.Windows.Forms;
 using Application = Autodesk.Navisworks.Api.Application;
 using ComApiBridge = Autodesk.Navisworks.Api.ComApi.ComApiBridge;
@@ -119,10 +117,14 @@ namespace NavisTools
     [Command("ID_Button_D", CanToggle = true)]
     [Command("ID_Button_E", CanToggle = true)]
 
+    [Command("ID_Button_10")]
     [Command("ID_Button_11")]
     [Command("ID_Button_12")]
     [Command("ID_Button_13")]
     [Command("ID_Button_14")]
+    [Command("ID_Button_Config", DisplayName = "Settings", Icon = "Config_16.ico", LargeIcon = "Config_32.ico", ToolTip = "Configuration Settings", ExtendedToolTip = "Configure NavisTools settings")]
+    [Command("ID_Button_Config_Settings", DisplayName = "Settings...")]
+    [Command("ID_Button_Config_Reset", DisplayName = "Reset to Defaults")]
 
     public class CustomRibbonCommandHandler : CommandHandlerPlugin
     {
@@ -151,7 +153,7 @@ namespace NavisTools
         public override int ExecuteCommand(string commandId, params string[] parameters)
         {
             // current document (.NET)
-            Document doc = Autodesk.Navisworks.Api.Application.ActiveDocument;
+            Document doc = Application.ActiveDocument;
             // current document (COM)
             InwOpState10 cdoc = ComApiBridge.State;
             // current selected items
@@ -164,7 +166,8 @@ namespace NavisTools
                 case "ID_Button_1":
                     try
                     {
-                        Helper.ShowMyDialog("Объем выборки", Helper.tostring(Helper.get_parameter("Объект", "Объем", "м3")), "Объем = \n", "м3");
+                        MessageBox.Show(Application.Gui.MainWindow,
+                            "Changing selection to children");
                         return 0;
                     }
                     catch (Exception ex)
@@ -175,37 +178,7 @@ namespace NavisTools
                 case "ID_Button_1A":
                     try
                     {
-                        MessageBox.Show(Autodesk.Navisworks.Api.Application.Gui.MainWindow, "Changing selection to parents");
-                        //ParentToParam.SelectParents();
-
-                        //Autodesk.Navisworks.Api.Application.ActiveDocument.CurrentSelection.SelectAll();
-                        // ModelItemCollection oModelColl = Autodesk.Navisworks.Api.Application.ActiveDocument.CurrentSelection.SelectedItems;
-
-                        foreach (ModelItem item in items)
-                        {
-                            // convert ModelItem to COM Path
-                            InwOaPath citem = (InwOaPath)ComApiBridge.ToInwOaPath(item);
-                            // Get item's PropertyCategoryCollection
-                            InwGUIPropertyNode2 cpropcates = (InwGUIPropertyNode2)cdoc.GetGUIPropertyNode(citem, true);
-                            // create a new Category (PropertyDataCollection)
-                            InwOaPropertyVec newcate = (InwOaPropertyVec)cdoc.ObjectFactory(nwEObjectType.eObjectType_nwOaPropertyVec, null, null);
-                            // create a new Property (PropertyData)
-                            InwOaProperty newprop = (InwOaProperty)cdoc.ObjectFactory(nwEObjectType.eObjectType_nwOaProperty, null, null);
-                            // set PropertyName
-                            newprop.name = "ParentName" + "_InternalName";
-                            // set PropertyDisplayName
-                            newprop.UserName = "ParentName";
-                            // set PropertyValue
-                            if (item.Parent != null)
-                            {
-                                newprop.value = item.Parent.DisplayName;
-                            }
-                            // add PropertyData to Category
-                            newcate.Properties().Add(newprop);
-                            // add CategoryData to item's CategoryDataCollection
-                            cpropcates.SetUserDefined(0, "RHI", "RHI" + "_InternalName", newcate);
-                        }
-
+                        Tools.ParentToParam.ExecuteParentToParam(items, cdoc);
                         return 0;
                     }
                     catch (Exception ex)
@@ -232,7 +205,18 @@ namespace NavisTools
                         m_radio_group_DEF = commandId;
                         break;
                     }
-                case "ID_Button_11":
+                case "ID_Button_10":
+                    try
+                    {
+                        Tools.ParentToParam.ExecuteParentToParam(items, cdoc);
+                        return 0;
+                    }
+                    catch (Exception ex)
+                    {
+                        int num = (int)MessageBox.Show(ex.Message);
+                        return 0;
+					}
+				case "ID_Button_11":
                     try
                     {
                         Tools.GetVolume.ExecuteVolumeCommand();
@@ -265,17 +249,29 @@ namespace NavisTools
                         int num = (int)MessageBox.Show(ex.Message);
                         return 0;
                     }
-                case "ID_Button_14":
-                    try
-                    {
-                        Tools.GetVolume.ExecuteCountCommand();
-                        return 0;
-                    }
-                    catch (Exception ex)
-                    {
-                        int num = (int)MessageBox.Show(ex.Message);
-                        return 0;
-                    }
+				case "ID_Button_14":
+					try
+					{
+						Tools.GetVolume.ExecuteCountCommand();
+						return 0;
+					}
+					catch (Exception ex)
+					{
+						int num = (int)MessageBox.Show(ex.Message);
+						return 0;
+					}
+				case "ID_Button_Config":
+					try
+					{
+						// Show configuration menu with options
+						ConfigurationManager.ShowConfigurationMenu();
+						return 0;
+					}
+					catch (Exception ex)
+					{
+						int num = (int)MessageBox.Show(ex.Message);
+						return 0;
+					}
 
                 default:
                     {

@@ -9,12 +9,46 @@ using Application = Autodesk.Navisworks.Api.Application;
 using Autodesk.Navisworks.Api.Interop.ComApi;
 using ComApiBridge = Autodesk.Navisworks.Api.ComApi.ComApiBridge;
 
-namespace NavisTools
+namespace NavisTools.Tools
 {
     public class ParentToParam
     {
+        public static void ExecuteParentToParam(ModelItemCollection items, InwOpState10 cdoc)
+        {
+			MessageBox.Show(Application.Gui.MainWindow, "Changing selection to parents");
+			//ParentToParam.SelectParents();
 
-        public static void SelectParents()
+			//Autodesk.Navisworks.Api.Application.ActiveDocument.CurrentSelection.SelectAll();
+			// ModelItemCollection oModelColl = Autodesk.Navisworks.Api.Application.ActiveDocument.CurrentSelection.SelectedItems;
+
+			foreach (ModelItem item in items)
+			{
+				// convert ModelItem to   COM Path
+				InwOaPath citem = (InwOaPath)ComApiBridge.ToInwOaPath(item);
+				// Get item's PropertyCategoryCollection
+				InwGUIPropertyNode2 cpropcates = (InwGUIPropertyNode2)cdoc.GetGUIPropertyNode(citem, true);
+				// create a new Category (PropertyDataCollection)
+				InwOaPropertyVec newcate = (InwOaPropertyVec)cdoc.ObjectFactory(nwEObjectType.eObjectType_nwOaPropertyVec, null, null);
+				// create a new Property (PropertyData)
+				InwOaProperty newprop = (InwOaProperty)cdoc.ObjectFactory(nwEObjectType.eObjectType_nwOaProperty, null, null);
+				// set PropertyName
+				newprop.name = "ParentName" + "_InternalName";
+				// set PropertyDisplayName
+				newprop.UserName = "ParentName";
+				// set PropertyValue
+				if (item.Parent != null)
+				{
+					newprop.value = item.Parent.DisplayName;
+				}
+				// add PropertyData to Category
+				newcate.Properties().Add(newprop);
+				// add CategoryData to item's CategoryDataCollection
+				cpropcates.SetUserDefined(0, "NavisTools", "NavisTools" + "_InternalName", newcate);
+			}
+
+		}
+
+		public static void SelectParents()
         {
             ModelItemCollection selectionModelItems = new ModelItemCollection();
             Application.ActiveDocument.CurrentSelection.SelectedItems.CopyTo(
