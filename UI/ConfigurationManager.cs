@@ -61,27 +61,6 @@ namespace NavisTools.UI
             }
         }
 
-        /// <summary>
-        /// Shows the configuration menu
-        /// </summary>
-        public static void ShowConfigurationMenu()
-        {
-            var menu = new ContextMenuStrip();
-
-            var settingsItem = new ToolStripMenuItem("Settings...");
-            settingsItem.Click += (s, e) => OpenSettings();
-            menu.Items.Add(settingsItem);
-
-            menu.Items.Add(new ToolStripSeparator());
-
-            var resetItem = new ToolStripMenuItem("Reset to Defaults");
-            resetItem.Click += (s, e) => ResetToDefaults();
-            menu.Items.Add(resetItem);
-
-            // Show menu at cursor position
-            menu.Show(System.Windows.Forms.Cursor.Position);
-        }
-
         private static void ApplySettings()
         {
             // TODO: Apply settings to the application

@@ -199,35 +199,33 @@
 	  </RibbonPanel>
 	  <RibbonPanel x:Uid="RibbonPanel_3" >
 		  <RibbonPanelSource x:Uid="Tools" KeyTip="C1" Title="Add Data">
-			  <local:NWRibbonButton x:Uid="Button_10" Id="ID_Button_10"
-					  Size="Large"
-					  KeyTip="B1"
-					  ShowText="True"
-					  Text="Parent Name"
-					  Orientation="Vertical"/>
-			  <!-- Config split button with dropdown arrow -->
-			  <local:NWRibbonSplitButton x:Uid="SplitButton_Config" Id="ID_Button_Config"
-									   IsSynchronizedWithCurrentItem="False"
-									   IsSplit="True"
-									   Size="Standard"
-									   Image="..\Images/Config_16.ico"
-									   KeyTip="CFG"
-									   ShowText="False"
-									   Orientation="Horizontal">
-				  <local:NWRibbonButton x:Uid="ConfigMenu_Settings" Id="ID_Button_Config_Settings"
-									   ShowText="True"
-									   Text="Settings..."
-									   Image="..\Images/Config_16.ico"
-									   KeyTip="S"/>
-				  <RibbonSeparator x:Uid="ConfigSeparator"/>
-				  <local:NWRibbonButton x:Uid="ConfigMenu_Reset" Id="ID_Button_Config_Reset"
-									   ShowText="True"
-									   Text="Reset to Defaults"
-									   Image="..\Images/Config_16.ico"
-									   KeyTip="R"/>
-			  </local:NWRibbonSplitButton>
-		  </RibbonPanelSource>
-	  </RibbonPanel>
+				  <local:NWRibbonButton x:Uid="Button_10" Id="ID_Button_10"
+						  Size="Large"
+						  KeyTip="B1"
+						  ShowText="True"
+						  Text="Parent Name"
+						  Orientation="Vertical"/>
+				  <!-- Config split button with dropdown arrow -->
+				  <local:NWRibbonSplitButton x:Uid="SplitButton_Config" Id="ID_Button_Config"
+										   IsSynchronizedWithCurrentItem="False"
+										   IsSplit="True"
+										   Size="Standard"
+										   KeyTip="CFG"
+										   ShowText="True"
+										   Text="⚙"
+										   Orientation="Horizontal">
+					  <local:NWRibbonButton x:Uid="ConfigMenu_Settings" Id="ID_Button_Config_Settings"
+										   ShowText="True"
+										   Text="Settings..."
+										   KeyTip="S"/>
+					  <RibbonSeparator x:Uid="ConfigSeparator"/>
+					  <local:NWRibbonButton x:Uid="ConfigMenu_Reset" Id="ID_Button_Config_Reset"
+										   ShowText="True"
+										   Text="Reset to Defaults"
+										   KeyTip="R"/>
+				  </local:NWRibbonSplitButton>
+			  </RibbonPanelSource>
+			  </RibbonPanel>
 
       <RibbonPanel x:Uid="RibbonPanel_4" >
 		  <RibbonPanelSource x:Uid="Tools" KeyTip="C1" Title="Get Volume">

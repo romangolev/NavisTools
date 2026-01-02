@@ -261,17 +261,21 @@ namespace NavisTools
 						return 0;
 					}
 				case "ID_Button_Config":
-					try
-					{
-						// Show configuration menu with options
-						ConfigurationManager.ShowConfigurationMenu();
-						return 0;
+                    {
+                        ConfigurationManager.OpenSettings();
+                        break;
+                    }
+                case "ID_Button_Config_Settings":
+                    {
+                        ConfigurationManager.OpenSettings();
+                        break;
+                    }
+                case "ID_Button_Config_Reset":
+                    {
+                        ConfigurationManager.ResetToDefaults();
+                        break;
 					}
-					catch (Exception ex)
-					{
-						int num = (int)MessageBox.Show(ex.Message);
-						return 0;
-					}
+					break;
 
                 default:
                     {
