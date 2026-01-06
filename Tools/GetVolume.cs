@@ -32,6 +32,47 @@ namespace NavisTools.Tools
 		public static void ExecuteVolumeCommand()
 		{
 			var totalVolume = GetParameter(MeasurementUnit.Volume);
+
+            foreach (ModelItem selectedItem in Application.ActiveDocument.CurrentSelection.SelectedItems)
+            {
+				PropertyCategoryCollection categories = selectedItem.GetUserFilteredPropertyCategories();
+				foreach (PropertyCategory category in categories)
+				{
+					string catInternal = category.Name;
+                    string catDisplay = category.DisplayName;
+
+					foreach (DataProperty prop in category.Properties)
+					{
+						string propInternal = prop.Name;
+                        string propDisplay = prop.DisplayName;
+						string combined = prop.CombinedName.ToString();
+
+						VariantData value = prop.Value;
+
+						//System.Diagnostics.Debug.WriteLine(
+						//	$"{catInternal} ({catDisplay}) :: " +
+						//	$"{propInternal} ({propDisplay}) = {value}"
+						//);
+                        if (propInternal == "lcldrevit_parameter_-1001133")
+                        {
+							System.Diagnostics.Debug.WriteLine(value.IsDoubleArea.ToString());
+							System.Diagnostics.Debug.WriteLine(
+								$"{catInternal} ({catDisplay}) :: " +
+								$"{propInternal} ({propDisplay}) = {ConvertValue(prop, MeasurementUnit.Area)}"
+							);
+						}
+                        if (propInternal == "lcldrevit_parameter_-1001129")
+                        {
+							System.Diagnostics.Debug.WriteLine(value.IsDoubleArea.ToString());
+							System.Diagnostics.Debug.WriteLine(
+								$"{catInternal} ({catDisplay}) :: " +
+								$"{propInternal} ({propDisplay}) = {ConvertValue(prop, MeasurementUnit.Volume)}"
+							);
+						}
+					}
+				}
+            }
+
 			ShowMyDialog(
 				"Selected Total Volume",
 				totalVolume.ToString(),
