@@ -49,10 +49,10 @@ namespace NavisTools.Tools
 
 						VariantData value = prop.Value;
 
-						//System.Diagnostics.Debug.WriteLine(
-						//	$"{catInternal} ({catDisplay}) :: " +
-						//	$"{propInternal} ({propDisplay}) = {value}"
-						//);
+						System.Diagnostics.Debug.WriteLine(
+							$"{catInternal} ({catDisplay}) :: " +
+							$"{propInternal} ({propDisplay}) = {value}"
+						);
                         if (propInternal == "lcldrevit_parameter_-1001133")
                         {
 							System.Diagnostics.Debug.WriteLine(value.IsDoubleArea.ToString());
@@ -63,7 +63,7 @@ namespace NavisTools.Tools
 						}
                         if (propInternal == "lcldrevit_parameter_-1001129")
                         {
-							System.Diagnostics.Debug.WriteLine(value.IsDoubleArea.ToString());
+							System.Diagnostics.Debug.WriteLine(value.IsDoubleVolume.ToString());
 							System.Diagnostics.Debug.WriteLine(
 								$"{catInternal} ({catDisplay}) :: " +
 								$"{propInternal} ({propDisplay}) = {ConvertValue(prop, MeasurementUnit.Volume)}"
