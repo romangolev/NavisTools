@@ -57,37 +57,148 @@ namespace NavisTools.Tools
 			ShowMyDialog(
 				"Selected Total Length",
 				totalLength.ToString(),
-				"Length = \n",
-				"м"
-				);
-		}
+					"Length = \n",
+						"м"
+						);
+				}
 
-        public static void ExecuteCountCommand()
-        {
+				public static void ExecuteCountCommand()
+				{
 
-            int num = 0;
-            ModelItemCollection modelItemCollection = new ModelItemCollection();
-            foreach (ModelItem selectedItem in Application.ActiveDocument.CurrentSelection.SelectedItems)
-            {
-                ++num;
-                modelItemCollection.Add(selectedItem);
-            }
-            Selection selection = new Selection(modelItemCollection);
-            Application.ActiveDocument.CurrentSelection.Clear();
-            Application.ActiveDocument.CurrentSelection.CopyFrom(selection);
+					int num = 0;
+					ModelItemCollection modelItemCollection = new ModelItemCollection();
+					foreach (ModelItem selectedItem in Application.ActiveDocument.CurrentSelection.SelectedItems)
+					{
+						++num;
+						modelItemCollection.Add(selectedItem);
+					}
+					Selection selection = new Selection(modelItemCollection);
+					Application.ActiveDocument.CurrentSelection.Clear();
+					Application.ActiveDocument.CurrentSelection.CopyFrom(selection);
 
-            ShowMyDialog(
-                "Selected Count",
-                num.ToString(),
-                "Count = \n",
-                "pcs."
-                );
-        }
+					ShowMyDialog(
+						"Selected Count",
+						num.ToString(),
+						"Count = \n",
+						"pcs."
+						);
+				}
 
-        /// <summary>
-        /// Efficiently find property by searching across all relevant categories with O(1) lookups
-        /// </summary>
-        private static DataProperty FindProperty(ModelItem item, string[] propertyVariations)
+				/// <summary>
+				/// Executes the Total Sums command showing Volume, Area, Length and Count
+				/// </summary>
+				public static void ExecuteTotalSumsCommand()
+				{
+					var totalVolume = GetParameter(MeasurementUnit.Volume);
+					var totalArea = GetParameter(MeasurementUnit.Area);
+					var totalLength = GetParameter(MeasurementUnit.Length);
+
+					int count = 0;
+					foreach (ModelItem selectedItem in Application.ActiveDocument.CurrentSelection.SelectedItems)
+					{
+						++count;
+					}
+
+					ShowTotalSumsPanel(totalVolume, totalArea, totalLength, count);
+				}
+
+				/// <summary>
+				/// Shows a panel with all totals
+				/// </summary>
+				private static void ShowTotalSumsPanel(double volume, double area, double length, int count)
+				{
+					Form panel = new Form();
+					panel.Text = "Total Sums";
+					panel.Size = new Size(320, 220);
+					panel.FormBorderStyle = FormBorderStyle.FixedDialog;
+					panel.MaximizeBox = false;
+					panel.MinimizeBox = false;
+					panel.StartPosition = FormStartPosition.CenterParent;
+
+					int yPos = 20;
+					int labelWidth = 100;
+					int valueWidth = 180;
+
+					// Volume
+					Label volumeLabel = new Label();
+					volumeLabel.Text = "Volume:";
+					volumeLabel.Location = new Point(15, yPos);
+					volumeLabel.Size = new Size(labelWidth, 20);
+					volumeLabel.Font = new Font(volumeLabel.Font, FontStyle.Bold);
+					panel.Controls.Add(volumeLabel);
+
+					Label volumeValue = new Label();
+					volumeValue.Text = $"{volume:N3} м³";
+					volumeValue.Location = new Point(120, yPos);
+					volumeValue.Size = new Size(valueWidth, 20);
+					panel.Controls.Add(volumeValue);
+
+					yPos += 30;
+
+					// Area
+					Label areaLabel = new Label();
+					areaLabel.Text = "Area:";
+					areaLabel.Location = new Point(15, yPos);
+					areaLabel.Size = new Size(labelWidth, 20);
+					areaLabel.Font = new Font(areaLabel.Font, FontStyle.Bold);
+					panel.Controls.Add(areaLabel);
+
+					Label areaValue = new Label();
+					areaValue.Text = $"{area:N2} м²";
+					areaValue.Location = new Point(120, yPos);
+					areaValue.Size = new Size(valueWidth, 20);
+					panel.Controls.Add(areaValue);
+
+					yPos += 30;
+
+					// Length
+					Label lengthLabel = new Label();
+					lengthLabel.Text = "Length:";
+					lengthLabel.Location = new Point(15, yPos);
+					lengthLabel.Size = new Size(labelWidth, 20);
+					lengthLabel.Font = new Font(lengthLabel.Font, FontStyle.Bold);
+					panel.Controls.Add(lengthLabel);
+
+					Label lengthValue = new Label();
+					lengthValue.Text = $"{length:N2} м";
+					lengthValue.Location = new Point(120, yPos);
+					lengthValue.Size = new Size(valueWidth, 20);
+					panel.Controls.Add(lengthValue);
+
+					yPos += 30;
+
+					// Count
+					Label countLabel = new Label();
+					countLabel.Text = "Count:";
+					countLabel.Location = new Point(15, yPos);
+					countLabel.Size = new Size(labelWidth, 20);
+					countLabel.Font = new Font(countLabel.Font, FontStyle.Bold);
+					panel.Controls.Add(countLabel);
+
+					Label countValue = new Label();
+					countValue.Text = $"{count} pcs.";
+					countValue.Location = new Point(120, yPos);
+					countValue.Size = new Size(valueWidth, 20);
+					panel.Controls.Add(countValue);
+
+					yPos += 40;
+
+					// OK Button
+					Button okButton = new Button();
+					okButton.Text = "OK";
+					okButton.Location = new Point(115, yPos);
+					okButton.Size = new Size(75, 25);
+					okButton.DialogResult = DialogResult.OK;
+					panel.Controls.Add(okButton);
+					panel.AcceptButton = okButton;
+
+					panel.ShowDialog(Application.Gui.MainWindow);
+				}
+
+				/// <summary>
+				/// Efficiently find property by searching across all relevant categories with O(1) lookups
+				/// </summary>
+				private static DataProperty FindProperty(ModelItem item, string[] propertyVariations)
         {
             // Search across all categories
             foreach (PropertyCategory category in item.PropertyCategories)

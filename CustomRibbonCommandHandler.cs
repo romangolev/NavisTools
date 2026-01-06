@@ -122,9 +122,11 @@ namespace NavisTools
     [Command("ID_Button_12")]
     [Command("ID_Button_13")]
     [Command("ID_Button_14")]
+    [Command("ID_Button_15")]
     [Command("ID_Button_Config", DisplayName = "Settings", Icon = "Config_16.ico", LargeIcon = "Config_32.ico", ToolTip = "Configuration Settings", ExtendedToolTip = "Configure NavisTools settings")]
     [Command("ID_Button_Config_Settings", DisplayName = "Settings...")]
     [Command("ID_Button_Config_Reset", DisplayName = "Reset to Defaults")]
+    [Command("ID_Button_SelectionInfo", DisplayName = "Selection Info", ToolTip = "Selection Info Panel", ExtendedToolTip = "Show the selection info dockable panel")]
 
     public class CustomRibbonCommandHandler : CommandHandlerPlugin
     {
@@ -260,6 +262,17 @@ namespace NavisTools
 						int num = (int)MessageBox.Show(ex.Message);
 						return 0;
 					}
+				case "ID_Button_15":
+					try
+					{
+						Tools.GetVolume.ExecuteTotalSumsCommand();
+						return 0;
+					}
+					catch (Exception ex)
+					{
+						int num = (int)MessageBox.Show(ex.Message);
+						return 0;
+					}
 				case "ID_Button_Config":
                     {
                         ConfigurationManager.OpenSettings();
@@ -270,22 +283,40 @@ namespace NavisTools
                         ConfigurationManager.OpenSettings();
                         break;
                     }
-                case "ID_Button_Config_Reset":
-                    {
-                        ConfigurationManager.ResetToDefaults();
-                        break;
+				case "ID_Button_Config_Reset":
+					{
+						ConfigurationManager.ResetToDefaults();
+						break;
 					}
-					break;
+				case "ID_Button_SelectionInfo":
+					{
+						try
+						{
+							if (!Application.IsAutomated)
+							{
+								var pluginRecord = Application.Plugins.FindPlugin("SelectionInfoPane.RG");
 
-                default:
-                    {
-                        MessageBox.Show("You have clicked on the command with ID = '" + commandId + "'");
-                        break;
-                    }
+								if (pluginRecord is DockPanePluginRecord && pluginRecord.IsEnabled)
+								{
+									var dockPane = (pluginRecord.LoadedPlugin ?? pluginRecord.LoadPlugin()) as DockPanePlugin;
+
+									dockPane.ActivatePane();
+								}
+							}
+						}
+						catch (Exception ex)
+						{
+							MessageBox.Show(Application.Gui.MainWindow,
+								$"Error toggling Selection Info panel: {ex.Message}",
+								"Error",
+								MessageBoxButtons.OK,
+								MessageBoxIcon.Error);
+						}
+						break;
+					}
+				}
+	            return 0;
             }
-
-            return 0;
-        }
 
         /// <summary>
         /// Updates the command specified by the command Id.

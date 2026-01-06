@@ -53,6 +53,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
@@ -61,15 +62,23 @@
   <ItemGroup>
     <Compile Include="CustomRibbonCommandHandler.cs" />
     <Compile Include="Models\PropertyNamesModel.cs" />
+    <Compile Include="SelectionInfoDockPane.cs" />
     <Compile Include="Tools\BaseTool.cs" />
     <Compile Include="Tools\CommonUtilities.cs" />
     <Compile Include="Tools\ParentToParam.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\GetVolume.cs" />
+    <Compile Include="Tools\SelectionInfoTool.cs" />
     <Compile Include="UI\ConfigurationForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\ConfigurationManager.cs" />
+    <Compile Include="Tools\ConfigurationManager.cs" />
+    <Compile Include="UI\SelectionInfoControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\SelectionInfoControl.Designer.cs">
+      <DependentUpon>SelectionInfoControl.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="NavisTools.name">
@@ -116,6 +125,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="View\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="UI\SelectionInfoControl.resx">
+      <DependentUpon>SelectionInfoControl.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
