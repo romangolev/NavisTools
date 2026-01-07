@@ -8,8 +8,8 @@
     <ProjectGuid>{DFE4D093-5359-45B7-9BA7-6C99F9424B63}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CustomRibbon</RootNamespace>
-    <AssemblyName>CustomRibbon.ADSK</AssemblyName>
+    <RootNamespace>NavisTools</RootNamespace>
+    <AssemblyName>NavisTools.RG</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
     <FileAlignment>512</FileAlignment>
@@ -43,20 +43,48 @@
       <HintPath>C:\Program Files\Autodesk\Navisworks Manage 2022\Autodesk.Navisworks.Api.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Autodesk.Navisworks.ComApi">
+      <HintPath>..\..\..\..\..\..\Program Files\Autodesk\Navisworks Manage 2022\Autodesk.Navisworks.ComApi.dll</HintPath>
+    </Reference>
+    <Reference Include="Autodesk.Navisworks.Interop.ComApi">
+      <HintPath>..\..\..\..\..\..\Program Files\Autodesk\Navisworks Manage 2022\Autodesk.Navisworks.Interop.ComApi.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomRibbonCommandHandler.cs" />
+    <Compile Include="Models\PropertyNamesModel.cs" />
+    <Compile Include="SelectionInfoDockPane.cs" />
+    <Compile Include="Tools\BaseTool.cs" />
+    <Compile Include="Tools\CommonUtilities.cs" />
+    <Compile Include="Tools\ParentToParam.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tools\GetVolume.cs" />
+    <Compile Include="Tools\SelectionInfoTool.cs" />
+    <Compile Include="UI\ConfigurationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tools\ConfigurationManager.cs" />
+    <Compile Include="UI\SelectionInfoControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\SelectionInfoControl.Designer.cs">
+      <DependentUpon>SelectionInfoControl.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="CustomRibbon.name">
+    <None Include="NavisTools.name">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="CustomRibbon.xaml">
+    <None Include="NavisTools.xaml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -95,19 +123,19 @@
     <Content Include="Images\Two_16.ico" />
     <Content Include="Images\Two_32.ico" />
   </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="UI\SelectionInfoControl.resx">
+      <DependentUpon>SelectionInfoControl.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>IF EXIST "$(ProjectDir)..\..\..\..\..\..\Plugins\$(TargetName)\" rmdir /S /Q "$(ProjectDir)..\..\..\..\..\..\Plugins\$(TargetName)\"
-xcopy /Y "$(TargetPath)" "$(ProjectDir)..\..\..\..\..\..\Plugins\$(TargetName)\"
-
-mkdir "$(ProjectDir)..\..\..\..\..\..\Plugins\$(TargetName)\en-US
-copy /Y "$(ProjectDir)CustomRibbon.xaml" "$(ProjectDir)..\..\..\..\..\..\Plugins\$(TargetName)\en-US\"
-
-mkdir "$(ProjectDir)..\..\..\..\..\..\Plugins\$(TargetName)\en-US
-copy /Y "$(ProjectDir)CustomRibbon.name" "$(ProjectDir)..\..\..\..\..\..\Plugins\$(TargetName)\en-US\"
-
-xcopy /Y "$(ProjectDir)Images\*.*" "$(ProjectDir)..\..\..\..\..\..\Plugins\$(TargetName)\Images\"
-</PostBuildEvent>
+    <PostBuildEvent>IF EXIST "$(ProgramFiles)\Autodesk\Navisworks Manage 2022\Plugins\$(TargetName)\" rmdir /S /Q "$(ProgramFiles)\Autodesk\Navisworks Manage 2022\Plugins\$(TargetName)\"
+xcopy /Y /i "$(TargetDir)*.dll*" "$(ProgramFiles)\Autodesk\Navisworks Manage 2022\Plugins\$(TargetName)\"
+xcopy /Y /i "$(ProjectDir)*.xaml*" "$(ProgramFiles)\Autodesk\Navisworks Manage 2022\Plugins\$(TargetName)\en-US\"
+xcopy /Y /i "$(ProjectDir)*.name*" "$(ProgramFiles)\Autodesk\Navisworks Manage 2022\Plugins\$(TargetName)\en-US\"
+xcopy /Y /i "$(ProjectDir)Images\*.ico*" "$(ProgramFiles)\Autodesk\Navisworks Manage 2022\Plugins\$(TargetName)\Images\"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
