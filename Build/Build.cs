@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Nuke.Common;
@@ -7,11 +8,13 @@ using Nuke.Common.CI;
 using Nuke.Common.Execution;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
+using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.MSBuild;
 using Nuke.Common.Tooling;
 using Nuke.Common.Utilities.Collections;
 using static Nuke.Common.EnvironmentInfo;
 using static Nuke.Common.IO.PathConstruction;
+using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.MSBuild.MSBuildTasks;
 
 class Build : NukeBuild
@@ -159,6 +162,60 @@ class Build : NukeBuild
             }
 
             Serilog.Log.Information($"Bundle created successfully at: {BundleDirectory}");
+        });
+
+    Target CreateInstaller => _ => _
+        .DependsOn(CreateBundle)
+        .Executes(() =>
+        {
+            var installerProject = Solution.GetProject("Installer");
+
+            Serilog.Log.Information("Building Installer project...");
+
+            DotNetBuild(s => s
+                .SetProjectFile(installerProject)
+                .SetConfiguration("Release"));
+
+            Serilog.Log.Information("Running Installer Creator...");
+
+            var installerExe = installerProject.Directory / "bin" / "Release" / "net8.0" / "Installer.exe";
+
+            var processInfo = new ProcessStartInfo
+            {
+                FileName = installerExe,
+                WorkingDirectory = RootDirectory,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
+
+            using var process = Process.Start(processInfo);
+            if (process == null)
+            {
+                throw new Exception("Failed to start Installer Creator");
+            }
+
+            var output = process.StandardOutput.ReadToEnd();
+            var error = process.StandardError.ReadToEnd();
+
+            process.WaitForExit();
+
+            if (!string.IsNullOrEmpty(output))
+            {
+                Serilog.Log.Information(output);
+            }
+
+            if (!string.IsNullOrEmpty(error))
+            {
+                Serilog.Log.Error(error);
+            }
+
+            if (process.ExitCode != 0)
+            {
+                throw new Exception($"Installer Creator failed with exit code {process.ExitCode}");
+            }
+
+            Serilog.Log.Information("Installer created successfully!");
         });
 
 }
