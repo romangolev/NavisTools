@@ -3,9 +3,9 @@
 	<TargetFramework>net48</TargetFramework>
 	<OutputType>Library</OutputType>
 	<RootNamespace>NavisTools</RootNamespace>
-	<AssemblyName>NavisTools.RG</AssemblyName>
+	<AssemblyName>NavisTools</AssemblyName>
 	<ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
-	<Configurations>Debug;Release;Debug N22;Debug N23;Debug N24;Debug N25;Debug N26</Configurations>
+	<Configurations>Debug;Release;Debug N22;Debug N23;Debug N24;Debug N25;Debug N26;Release N22;Release N23;Release N24;Release N25;Release N26</Configurations>
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 	<UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
@@ -48,14 +48,24 @@
       <None Include="NavisTools.name" CopyToOutputDirectory="Always" />
       <None Include="NavisTools.xaml" CopyToOutputDirectory="Always" />
     </ItemGroup>
-    <ItemGroup>
-      <Content Include="Images\*.ico" />
-      <None Include="PostBuildDebug.ps1" CopyToOutputDirectory="PreserveNewest" />
-    </ItemGroup>
-    <Target Name="CleanDebug" BeforeTargets="BeforeBuild" Condition="$(Configuration.Contains('Debug'))">
-      <Exec Command="powershell -ExecutionPolicy Bypass -File &quot;$(ProjectDir)CleanDebug.ps1&quot; -TargetName &quot;$(TargetName)&quot; -NavisVersion &quot;$(NavisVersion)&quot;" />
-    </Target>
-    <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="$(Configuration.Contains('Debug'))">
-      <Exec Command="powershell -ExecutionPolicy Bypass -File &quot;$(ProjectDir)PostBuildDebug.ps1&quot; -TargetDir &quot;$(TargetDir)&quot; -ProjectDir &quot;$(ProjectDir)&quot; -TargetName &quot;$(TargetName)&quot; -NavisVersion &quot;$(NavisVersion)&quot;" />
-    </Target>
-</Project>
+      <ItemGroup>
+        <Content Include="Images\*.ico" />
+        <None Include="PostBuildDebug.ps1" />
+        <None Include="CleanDebug.ps1" />
+        <None Include="PostBuildRelease.ps1" />
+        <None Include="CleanRelease.ps1" />
+        <None Include="PackageContents.xml" />
+      </ItemGroup>
+          <Target Name="CleanDebug" BeforeTargets="BeforeBuild" Condition="$(Configuration.Contains('Debug')) AND '$(SkipPostBuildEvent)' != 'true'">
+            <Exec Command="powershell -ExecutionPolicy Bypass -Command &quot;&amp; '$(ProjectDir)CleanDebug.ps1' -TargetName '$(TargetName)' -NavisVersion '$(NavisVersion)'&quot;" />
+          </Target>
+          <Target Name="PostBuildDebug" AfterTargets="PostBuildEvent" Condition="$(Configuration.Contains('Debug')) AND '$(SkipPostBuildEvent)' != 'true'">
+            <Exec Command="powershell -ExecutionPolicy Bypass -Command &quot;&amp; '$(ProjectDir)PostBuildDebug.ps1' -TargetDir '$(TargetDir.TrimEnd('\'))' -ProjectDir '$(ProjectDir.TrimEnd('\'))' -TargetName '$(TargetName)' -NavisVersion '$(NavisVersion)'&quot;" />
+          </Target>
+          <Target Name="CleanRelease" BeforeTargets="BeforeBuild" Condition="$(Configuration.Contains('Release')) AND '$(SkipPostBuildEvent)' != 'true'">
+            <Exec Command="powershell -ExecutionPolicy Bypass -Command &quot;&amp; '$(ProjectDir)CleanRelease.ps1' -NavisVersion '$(NavisVersion)'&quot;" />
+          </Target>
+          <Target Name="PostBuildRelease" AfterTargets="PostBuildEvent" Condition="$(Configuration.Contains('Release')) AND '$(SkipPostBuildEvent)' != 'true'">
+            <Exec Command="powershell -ExecutionPolicy Bypass -Command &quot;&amp; '$(ProjectDir)PostBuildRelease.ps1' -TargetDir '$(TargetDir.TrimEnd('\'))' -ProjectDir '$(ProjectDir.TrimEnd('\'))' -TargetName '$(TargetName)' -NavisVersion '$(NavisVersion)'&quot;" />
+          </Target>
+        </Project>

@@ -25,24 +25,29 @@ if (-not (Test-Path $ProjectDir)) {
     exit 1
 }
 
-$pluginPath = "$env:ProgramFiles\Autodesk\Navisworks Manage $NavisVersion\Plugins\$TargetName"
+$bundlePath = "$env:ProgramData\Autodesk\ApplicationPlugins\NavisTools.bundle"
+$contentPath = "$bundlePath\Contents\$NavisVersion"
 
-# Copy DLLs to plugin directory
+Write-Host "`nCreating bundle structure at: $bundlePath"
+
+# Create bundle directory structure
+$null = New-Item -ItemType Directory -Path $contentPath -Force
+
+# Copy DLLs to version-specific content directory
 Write-Host "`nCopying DLLs from: $TargetDir"
-Write-Host "Copying DLLs to: $pluginPath"
-$null = New-Item -ItemType Directory -Path $pluginPath -Force
+Write-Host "Copying DLLs to: $contentPath"
 $dllFiles = Get-ChildItem -Path $TargetDir -Filter "*.dll" -File
 if ($dllFiles.Count -eq 0) {
     Write-Warning "No DLL files found in: $TargetDir"
 } else {
     foreach ($file in $dllFiles) {
-        Copy-Item -Path $file.FullName -Destination $pluginPath -Force
+        Copy-Item -Path $file.FullName -Destination $contentPath -Force
         Write-Host "  Copied: $($file.Name)"
     }
 }
 
 # Copy XAML files to en-US subdirectory
-$enUsPath = "$pluginPath\en-US"
+$enUsPath = "$contentPath\en-US"
 Write-Host "`nCopying XAML files to: $enUsPath"
 $null = New-Item -ItemType Directory -Path $enUsPath -Force
 $xamlFiles = Get-ChildItem -Path $ProjectDir -Filter "*.xaml" -File
@@ -60,7 +65,7 @@ foreach ($file in $nameFiles) {
 }
 
 # Copy icon files to Images subdirectory
-$imagesPath = "$pluginPath\Images"
+$imagesPath = "$contentPath\Images"
 $projectImagesPath = Join-Path -Path $ProjectDir -ChildPath "Images"
 Write-Host "`nCopying icon files from: $projectImagesPath"
 Write-Host "Copying icon files to: $imagesPath"
@@ -75,6 +80,15 @@ if (Test-Path $projectImagesPath) {
     Write-Warning "Images directory not found: $projectImagesPath"
 }
 
+# Copy PackageContents.xml to bundle root if it exists
+$packageContentsSource = Join-Path -Path $ProjectDir -ChildPath "PackageContents.xml"
+if (Test-Path $packageContentsSource) {
+    Write-Host "`nCopying PackageContents.xml to: $bundlePath"
+    Copy-Item -Path $packageContentsSource -Destination $bundlePath -Force
+    Write-Host "  Copied: PackageContents.xml"
+}
+
 Write-Host "`nPost-build deployment completed successfully!"
+Write-Host "Bundle created at: $bundlePath"
 
 

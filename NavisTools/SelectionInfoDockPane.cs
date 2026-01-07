@@ -8,7 +8,7 @@ namespace NavisTools
     /// Dockable panel plugin that displays selection information dynamically.
     /// Updates automatically when selection changes in Navisworks.
     /// </summary>
-    [Plugin("SelectionInfoPane", "RG", DisplayName = "Selection Info")]
+    [Plugin("SelectionInfoPane", "NavisTools", DisplayName = "Selection Info")]
     [DockPanePlugin(300, 450, AutoScroll = true, FixedSize = false, MinimumHeight = 200, MinimumWidth = 250)]
     public class SelectionInfoDockPane : DockPanePlugin
     {

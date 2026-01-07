@@ -9,11 +9,12 @@
     <NukeScriptDirectory>..</NukeScriptDirectory>
     <NukeTelemetryVersion>1</NukeTelemetryVersion>
     <IsPackable>false</IsPackable>
-    <Configurations>Debug;Release;Debug N22;Debug N24;Debug N25;Debug N26</Configurations>
+    <Configurations>Debug;Release;Debug N22;Debug N24;Debug N25;Debug N26;Release N22;Release N23;Release N24;Release N25;Release N26</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Nuke.Common" Version="9.0.4" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
   </ItemGroup>
 
 </Project>

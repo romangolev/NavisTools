@@ -10,7 +10,7 @@ using ComApiBridge = Autodesk.Navisworks.Api.ComApi.ComApiBridge;
 
 namespace NavisTools
 {
-    [Plugin("NavisTools", "RG", DisplayName = "NavisTools")]
+    [Plugin("NavisTools", "NavisTools", DisplayName = "NavisTools")]
     [Strings("NavisTools.name")]
     [RibbonLayout("NavisTools.xaml")]
     [RibbonTab("ID_CustomTab_1", DisplayName = "Navis Tools")]
@@ -125,7 +125,7 @@ namespace NavisTools
 						{
 							if (!Application.IsAutomated)
 							{
-								var pluginRecord = Application.Plugins.FindPlugin("SelectionInfoPane.RG");
+								var pluginRecord = Application.Plugins.FindPlugin("SelectionInfoPane.NavisTools");
 
 								if (pluginRecord is DockPanePluginRecord && pluginRecord.IsEnabled)
 								{
