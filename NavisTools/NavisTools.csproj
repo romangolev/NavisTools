@@ -52,51 +52,28 @@
     <Content Include="Images\*.ico" />
     <None Include="PackageContents.xml" />
   </ItemGroup>
-    <Target Name="CleanDebug" BeforeTargets="BeforeBuild" Condition="$(Configuration.Contains('Debug')) AND '$(SkipPostBuildEvent)' != 'true'">
-      <PropertyGroup>
-        <CleanDebugCommand>
-          powershell -ExecutionPolicy Bypass -Command 
-          "&amp; '$(ProjectDir)/PSScripts/CleanDebug.ps1' 
-          -TargetName '$(TargetName)' 
-          -NavisVersion '$(NavisVersion)'"
-        </CleanDebugCommand>
-      </PropertyGroup>
-      <Exec Command="$(CleanDebugCommand)" />
-    </Target>
-    <Target Name="PostBuildDebug" AfterTargets="PostBuildEvent" Condition="$(Configuration.Contains('Debug')) AND '$(SkipPostBuildEvent)' != 'true'">
-      <PropertyGroup>
-        <PostBuildDebugCommand>
-          powershell -ExecutionPolicy Bypass -Command 
-          "&amp; '$(ProjectDir)/PSScripts/PostBuildDebug.ps1' 
-          -TargetDir '$(TargetDir.TrimEnd('\'))' 
-          -ProjectDir '$(ProjectDir.TrimEnd('\'))' 
-          -TargetName '$(TargetName)' 
-          -NavisVersion '$(NavisVersion)'"
-        </PostBuildDebugCommand>
-      </PropertyGroup>
-      <Exec Command="$(PostBuildDebugCommand)" />
-    </Target>
-    <Target Name="CleanRelease" BeforeTargets="BeforeBuild" Condition="$(Configuration.Contains('Release')) AND '$(SkipPostBuildEvent)' != 'true'">
-      <PropertyGroup>
-        <CleanReleaseCommand>
-          powershell -ExecutionPolicy Bypass -Command 
-          "&amp; '$(ProjectDir)/PSScripts/CleanRelease.ps1' 
-          -NavisVersion '$(NavisVersion)'"
-        </CleanReleaseCommand>
-      </PropertyGroup>
-      <Exec Command="$(CleanReleaseCommand)" />
-    </Target>
-    <Target Name="PostBuildRelease" AfterTargets="PostBuildEvent" Condition="$(Configuration.Contains('Release')) AND '$(SkipPostBuildEvent)' != 'true'">
-      <PropertyGroup>
-        <PostBuildReleaseCommand>
-          powershell -ExecutionPolicy Bypass -Command 
-          "&amp; '$(ProjectDir)/PSScripts/PostBuildRelease.ps1' 
-          -TargetDir '$(TargetDir.TrimEnd('\'))' 
-          -ProjectDir '$(ProjectDir.TrimEnd('\'))' 
-          -TargetName '$(TargetName)' 
-          -NavisVersion '$(NavisVersion)'"
-        </PostBuildReleaseCommand>
-      </PropertyGroup>
-      <Exec Command="$(PostBuildReleaseCommand)" />
-    </Target>
-  </Project>
+      <Target Name="CleanDebug" BeforeTargets="BeforeBuild" Condition="$(Configuration.Contains('Debug')) AND '$(SkipPostBuildEvent)' != 'true'">
+        <PropertyGroup>
+          <CleanDebugCommand>powershell -ExecutionPolicy Bypass -Command "&amp; '$(ProjectDir)PSScripts\CleanDebug.ps1' -TargetName '$(TargetName)' -NavisVersion '$(NavisVersion)'"</CleanDebugCommand>
+        </PropertyGroup>
+        <Exec Command="$(CleanDebugCommand)" />
+      </Target>
+      <Target Name="PostBuildDebug" AfterTargets="PostBuildEvent" Condition="$(Configuration.Contains('Debug')) AND '$(SkipPostBuildEvent)' != 'true'">
+        <PropertyGroup>
+          <PostBuildDebugCommand>powershell -ExecutionPolicy Bypass -Command "&amp; '$(ProjectDir)PSScripts\PostBuildDebug.ps1' -TargetDir '$(TargetDir.TrimEnd('\'))' -ProjectDir '$(ProjectDir.TrimEnd('\'))' -TargetName '$(TargetName)' -NavisVersion '$(NavisVersion)'"</PostBuildDebugCommand>
+        </PropertyGroup>
+        <Exec Command="$(PostBuildDebugCommand)" />
+      </Target>
+      <Target Name="CleanRelease" BeforeTargets="BeforeBuild" Condition="$(Configuration.Contains('Release')) AND '$(SkipPostBuildEvent)' != 'true'">
+        <PropertyGroup>
+          <CleanReleaseCommand>powershell -ExecutionPolicy Bypass -Command "&amp; '$(ProjectDir)PSScripts\CleanRelease.ps1' -NavisVersion '$(NavisVersion)'"</CleanReleaseCommand>
+        </PropertyGroup>
+        <Exec Command="$(CleanReleaseCommand)" />
+      </Target>
+      <Target Name="PostBuildRelease" AfterTargets="PostBuildEvent" Condition="$(Configuration.Contains('Release')) AND '$(SkipPostBuildEvent)' != 'true'">
+        <PropertyGroup>
+          <PostBuildReleaseCommand>powershell -ExecutionPolicy Bypass -Command "&amp; '$(ProjectDir)PSScripts\PostBuildRelease.ps1' -TargetDir '$(TargetDir.TrimEnd('\'))' -ProjectDir '$(ProjectDir.TrimEnd('\'))' -TargetName '$(TargetName)' -NavisVersion '$(NavisVersion)'"</PostBuildReleaseCommand>
+        </PropertyGroup>
+        <Exec Command="$(PostBuildReleaseCommand)" />
+      </Target>
+    </Project>
