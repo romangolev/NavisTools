@@ -1,147 +1,61 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{DFE4D093-5359-45B7-9BA7-6C99F9424B63}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NavisTools</RootNamespace>
-    <AssemblyName>NavisTools.RG</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
-    <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+	<TargetFramework>net48</TargetFramework>
+	<OutputType>Library</OutputType>
+	<RootNamespace>NavisTools</RootNamespace>
+	<AssemblyName>NavisTools.RG</AssemblyName>
+	<ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
+	<Configurations>Debug;Release;Debug N22;Debug N23;Debug N24;Debug N25;Debug N26</Configurations>
+	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	<UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
+	<OutputPath>Debug\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
+	<OutputPath>Release\</OutputPath>
   </PropertyGroup>
-  <PropertyGroup>
-    <RunPostBuildEvent>Always</RunPostBuildEvent>
+  <PropertyGroup Condition="$(Configuration.Contains('N21'))">
+    <NavisVersion>2021</NavisVersion>
+    <DefineConstants>$(DefineConstants);N21</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(Configuration.Contains('N22'))">
+    <NavisVersion>2022</NavisVersion>
+    <DefineConstants>$(DefineConstants);N22</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(Configuration.Contains('N23'))">
+    <NavisVersion>2023</NavisVersion>
+    <DefineConstants>$(DefineConstants);N23</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(Configuration.Contains('N24'))">
+    <NavisVersion>2024</NavisVersion>
+    <DefineConstants>$(DefineConstants);N24</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(Configuration.Contains('N25'))">
+    <NavisVersion>2025</NavisVersion>
+    <DefineConstants>$(DefineConstants);N25</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(Configuration.Contains('N26'))">
+    <NavisVersion>2026</NavisVersion>
+    <DefineConstants>$(DefineConstants);N26</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autodesk.Navisworks.Api">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Autodesk\Navisworks Manage 2022\Autodesk.Navisworks.Api.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Autodesk.Navisworks.ComApi">
-      <HintPath>..\..\..\..\..\..\Program Files\Autodesk\Navisworks Manage 2022\Autodesk.Navisworks.ComApi.dll</HintPath>
-    </Reference>
-    <Reference Include="Autodesk.Navisworks.Interop.ComApi">
-      <HintPath>..\..\..\..\..\..\Program Files\Autodesk\Navisworks Manage 2022\Autodesk.Navisworks.Interop.ComApi.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="Speckle.Navisworks.API" Version="$(NavisVersion).*">
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="CustomRibbonCommandHandler.cs" />
-    <Compile Include="Models\PropertyNamesModel.cs" />
-    <Compile Include="SelectionInfoDockPane.cs" />
-    <Compile Include="Tools\BaseTool.cs" />
-    <Compile Include="Tools\CommonUtilities.cs" />
-    <Compile Include="Tools\ParentToParam.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tools\GetVolume.cs" />
-    <Compile Include="Tools\SelectionInfoTool.cs" />
-    <Compile Include="UI\ConfigurationForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Tools\ConfigurationManager.cs" />
-    <Compile Include="UI\SelectionInfoControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\SelectionInfoControl.Designer.cs">
-      <DependentUpon>SelectionInfoControl.cs</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="NavisTools.name">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="NavisTools.xaml">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Images\A_16.ico" />
-    <Content Include="Images\A_32.ico" />
-    <Content Include="Images\B_16.ico" />
-    <Content Include="Images\B_32.ico" />
-    <Content Include="Images\C_16.ico" />
-    <Content Include="Images\C_32.ico" />
-    <Content Include="Images\D_16.ico" />
-    <Content Include="Images\D_32.ico" />
-    <Content Include="Images\Eight_16.ico" />
-    <Content Include="Images\Eight_32.ico" />
-    <Content Include="Images\E_16.ico" />
-    <Content Include="Images\E_32.ico" />
-    <Content Include="Images\Five_16.ico" />
-    <Content Include="Images\Five_32.ico" />
-    <Content Include="Images\Four_16.ico" />
-    <Content Include="Images\Four_32.ico" />
-    <Content Include="Images\F_16.ico" />
-    <Content Include="Images\F_32.ico" />
-    <Content Include="Images\G_16.ico" />
-    <Content Include="Images\G_32.ico" />
-    <Content Include="Images\H_16.ico" />
-    <Content Include="Images\H_32.ico" />
-    <Content Include="Images\One_16.ico" />
-    <Content Include="Images\One_32.ico" />
-    <Content Include="Images\Seven_16.ico" />
-    <Content Include="Images\Seven_32.ico" />
-    <Content Include="Images\Six_16.ico" />
-    <Content Include="Images\Six_32.ico" />
-    <Content Include="Images\Three_16.ico" />
-    <Content Include="Images\Three_32.ico" />
-    <Content Include="Images\Two_16.ico" />
-    <Content Include="Images\Two_32.ico" />
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <EmbeddedResource Include="UI\SelectionInfoControl.resx">
-      <DependentUpon>SelectionInfoControl.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>IF EXIST "$(ProgramFiles)\Autodesk\Navisworks Manage 2022\Plugins\$(TargetName)\" rmdir /S /Q "$(ProgramFiles)\Autodesk\Navisworks Manage 2022\Plugins\$(TargetName)\"
-xcopy /Y /i "$(TargetDir)*.dll*" "$(ProgramFiles)\Autodesk\Navisworks Manage 2022\Plugins\$(TargetName)\"
-xcopy /Y /i "$(ProjectDir)*.xaml*" "$(ProgramFiles)\Autodesk\Navisworks Manage 2022\Plugins\$(TargetName)\en-US\"
-xcopy /Y /i "$(ProjectDir)*.name*" "$(ProgramFiles)\Autodesk\Navisworks Manage 2022\Plugins\$(TargetName)\en-US\"
-xcopy /Y /i "$(ProjectDir)Images\*.ico*" "$(ProgramFiles)\Autodesk\Navisworks Manage 2022\Plugins\$(TargetName)\Images\"</PostBuildEvent>
-  </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+    <ItemGroup>
+      <None Include="NavisTools.name" CopyToOutputDirectory="Always" />
+      <None Include="NavisTools.xaml" CopyToOutputDirectory="Always" />
+    </ItemGroup>
+    <ItemGroup>
+      <Content Include="Images\*.ico" />
+      <None Include="PostBuildDebug.ps1" CopyToOutputDirectory="PreserveNewest" />
+    </ItemGroup>
+    <Target Name="CleanDebug" BeforeTargets="BeforeBuild" Condition="$(Configuration.Contains('Debug'))">
+      <Exec Command="powershell -ExecutionPolicy Bypass -File &quot;$(ProjectDir)CleanDebug.ps1&quot; -TargetName &quot;$(TargetName)&quot; -NavisVersion &quot;$(NavisVersion)&quot;" />
+    </Target>
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="$(Configuration.Contains('Debug'))">
+      <Exec Command="powershell -ExecutionPolicy Bypass -File &quot;$(ProjectDir)PostBuildDebug.ps1&quot; -TargetDir &quot;$(TargetDir)&quot; -ProjectDir &quot;$(ProjectDir)&quot; -TargetName &quot;$(TargetName)&quot; -NavisVersion &quot;$(NavisVersion)&quot;" />
+    </Target>
 </Project>

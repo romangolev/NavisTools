@@ -5,6 +5,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Configurations>Debug;Release;Debug N22;Debug N24;Debug N25;Debug N26</Configurations>
   </PropertyGroup>
 
 </Project>
