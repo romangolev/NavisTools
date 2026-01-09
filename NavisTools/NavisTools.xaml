@@ -21,13 +21,14 @@
                  rather than the mouse. Keytips are made visible by pressing <Alt>.
    -->
    <RibbonTab Id="ID_NavisToolsRibbonTab" Title="Navis Tools" KeyTip="NT">
-		<RibbonPanel x:Uid="NT_Ribbon_AddData" >
-			<RibbonPanelSource x:Uid="Tools" KeyTip="AD" Title="Add Data">
-				<local:NWRibbonButton x:Uid="Button_AddParentName" Id="ID_Button_AddParentName"
+		<!-- Main Panel -->
+		<RibbonPanel x:Uid="NT_Ribbon_Main" >
+			<RibbonPanelSource x:Uid="NT_RibbonSource_Main" KeyTip="MN" Title="Main">
+				<local:NWRibbonButton x:Uid="Button_About" Id="ID_Button_About"
 								Size="Large"
-								KeyTip="AP"
+								KeyTip="AB"
 								ShowText="True"
-								Text="Add&#10;Parent&#10;Name"
+								Text="About"
 								Orientation="Vertical"/>
 				<local:NWRibbonSplitButton x:Uid="SplitButton_Config" Id="ID_SplitButton_Config"
 								IsSynchronizedWithCurrentItem="False"
@@ -47,8 +48,15 @@
 				</local:NWRibbonSplitButton>
 			</RibbonPanelSource>
 		</RibbonPanel>
-		<RibbonPanel x:Uid="NT_Ribbon_GetTotals" >
-			<RibbonPanelSource x:Uid="NT_RibbonSource_GetTotals" KeyTip="GT" Title="Get Totals">
+		<!-- Tools Panel -->
+		<RibbonPanel x:Uid="NT_Ribbon_Tools" >
+			<RibbonPanelSource x:Uid="NT_RibbonSource_Tools" KeyTip="TL" Title="Tools">
+				<local:NWRibbonButton x:Uid="Button_AddParentName" Id="ID_Button_AddParentName"
+								Size="Large"
+								KeyTip="AP"
+								ShowText="True"
+								Text="Add&#10;Parent&#10;Name"
+								Orientation="Vertical"/>
 				<local:NWRibbonButton x:Uid="Button_Total_Sums" Id="ID_Button_Total_Sums"
 						Size="Large"
 						KeyTip="TS"
@@ -59,6 +67,8 @@
 						Orientation="Vertical"/>
 			</RibbonPanelSource>
 		</RibbonPanel>
+		<!-- Panels Panel -->
+		<!-- Panels Panel -->
 		<RibbonPanel x:Uid="NT_Ribbon_Panels">
 			<RibbonPanelSource x:Uid="NT_RibbonSource_Panels" KeyTip="PN" Title="Panels">
 				<local:NWRibbonButton x:Uid="Button_SelectionInfo" Id="ID_Button_SelectionInfo"

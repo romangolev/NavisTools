@@ -54,6 +54,7 @@ namespace NavisTools.Commands
             Register(new OpenSettingsCommand(documentProvider, selectionService, notificationService, configurationService));
             Register(new ResetSettingsCommand(documentProvider, selectionService, notificationService, configurationService));
             Register(new SelectionInfoCommand(documentProvider, selectionService, notificationService));
+            Register(new AboutCommand(documentProvider, selectionService, notificationService));
         }
 
         /// <summary>

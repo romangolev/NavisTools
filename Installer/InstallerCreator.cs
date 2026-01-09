@@ -21,6 +21,12 @@ namespace Installer
                     return 1;
                 }
 
+                // Get version from assembly (set by Directory.Build.props)
+                var version = Assembly.GetExecutingAssembly().GetName().Version;
+                var versionString = $"{version.Major}.{version.Minor}.{version.Build}";
+                
+                Console.WriteLine($"Version: {versionString}");
+
                 // Paths
                 var issScriptPath = Path.Combine(solutionDir, "Installer", "NavisTools.iss");
                 var bundlePath = Path.Combine(solutionDir, "output", "NavisTools.bundle");
@@ -59,12 +65,12 @@ namespace Installer
                 // Ensure output directory exists
                 Directory.CreateDirectory(outputDir);
 
-                // Compile the installer
+                // Compile the installer with version parameter
                 Console.WriteLine("Compiling installer...");
                 var processInfo = new ProcessStartInfo
                 {
                     FileName = isccPath,
-                    Arguments = $"\"{issScriptPath}\"",
+                    Arguments = $"\"{issScriptPath}\" /DMyAppVersion=\"{versionString}\"",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,

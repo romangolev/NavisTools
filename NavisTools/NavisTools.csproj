@@ -6,7 +6,7 @@
     <AssemblyName>NavisTools</AssemblyName>
     <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
     <Configurations>Debug;Release;Debug N22;Debug N23;Debug N24;Debug N25;Debug N26;Release N22;Release N23;Release N24;Release N25;Release N26</Configurations>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

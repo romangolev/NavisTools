@@ -13,6 +13,7 @@ namespace NavisTools
     [Strings("NavisTools.name")]
     [RibbonLayout("NavisTools.xaml")]
     [RibbonTab("ID_NavisToolsRibbonTab", DisplayName = "Navis Tools")]
+    [Command("ID_Button_About", DisplayName = "About", ToolTip = "About NavisTools", ExtendedToolTip = "Show information about NavisTools")]
     [Command("ID_Button_AddParentName", DisplayName = "Add Parent Name", ToolTip = "Add Parent Name", ExtendedToolTip = "Add parent name to selected items as a parameter")]
     [Command("ID_Button_Total_Sums", DisplayName = "Total Sums", ToolTip = "Total Sums", ExtendedToolTip = "Calculate total sums for selected items", Icon = "sum_16.ico", LargeIcon = "sum_32.ico")]
     [Command("ID_SplitButton_Config", DisplayName = "Settings", ToolTip = "Configuration Settings", ExtendedToolTip = "Configure NavisTools settings", Icon = "config_16.ico", LargeIcon = "config_32.ico")]
