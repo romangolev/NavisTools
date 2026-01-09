@@ -1,5 +1,7 @@
 ﻿using Autodesk.Navisworks.Api;
 using NavisTools.Models;
+using NavisTools.Services;
+using NavisTools.Interfaces;
 using System;
 using System.Drawing;
 using System.Globalization;
@@ -263,18 +265,64 @@ namespace NavisTools.Tools
             return null;
         }
 
+        /// <summary>
+        /// Find property by Revit parameter internal names (e.g., lcldrevit_parameter_-1012806)
+        /// </summary>
+        private static DataProperty FindPropertyByRevitId(ModelItem item, System.Collections.Generic.HashSet<string> internalNames)
+        {
+            foreach (PropertyCategory category in item.PropertyCategories)
+            {
+                foreach (DataProperty prop in category.Properties)
+                {
+                    if (internalNames.Contains(prop.Name))
+                    {
+                        return prop;
+                    }
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the current lookup mode from settings
+        /// </summary>
+        private static PropertyLookupMode GetLookupMode()
+        {
+            try
+            {
+                var configService = ServiceLocator.Resolve<IConfigurationService>() as ConfigurationService;
+                return configService?.Settings?.LookupMode ?? PropertyLookupMode.ByDisplayName;
+            }
+            catch
+            {
+                return PropertyLookupMode.ByDisplayName;
+            }
+        }
+
         private static DataProperty FindVolumeProperty(ModelItem item)
         {
+            if (GetLookupMode() == PropertyLookupMode.ByRevitParameterId)
+            {
+                return FindPropertyByRevitId(item, RevitParameterIdsModel.VolumeInternalNames);
+            }
             return FindProperty(item, PropertyNamesModel.Instance.VolumeNames);
         }
 
         private static DataProperty FindAreaProperty(ModelItem item)
         {
+            if (GetLookupMode() == PropertyLookupMode.ByRevitParameterId)
+            {
+                return FindPropertyByRevitId(item, RevitParameterIdsModel.AreaInternalNames);
+            }
             return FindProperty(item, PropertyNamesModel.Instance.AreaNames);
         }
 
         private static DataProperty FindLengthProperty(ModelItem item)
         {
+            if (GetLookupMode() == PropertyLookupMode.ByRevitParameterId)
+            {
+                return FindPropertyByRevitId(item, RevitParameterIdsModel.LengthInternalNames);
+            }
             return FindProperty(item, PropertyNamesModel.Instance.LengthNames);
         }
 

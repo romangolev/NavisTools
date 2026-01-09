@@ -16,6 +16,8 @@ namespace NavisTools.UI
         private Button _cancelButton;
         private Label _parameterNameLabel;
         private Label _categoryNameLabel;
+        private RadioButton _lookupByNameRadio;
+        private RadioButton _lookupByRevitIdRadio;
 
         public ConfigurationForm(SettingsModel settings)
         {
@@ -29,7 +31,7 @@ namespace NavisTools.UI
             this.SuspendLayout();
 
             this.Text = "NavisTools Settings";
-            this.ClientSize = new System.Drawing.Size(420, 180);
+            this.ClientSize = new System.Drawing.Size(420, 290);
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -71,21 +73,45 @@ namespace NavisTools.UI
             parentGroup.Controls.Add(_categoryNameTextBox);
             parentGroup.ResumeLayout(false);
 
+            // Property Lookup Mode group
+            var lookupGroup = new GroupBox();
+            lookupGroup.Text = "Property Lookup Mode (for Totals)";
+            lookupGroup.Location = new System.Drawing.Point(15, 125);
+            lookupGroup.Size = new System.Drawing.Size(390, 90);
+            lookupGroup.SuspendLayout();
+
+            _lookupByNameRadio = new RadioButton();
+            _lookupByNameRadio.Text = "By Display Name (works with any source, locale-dependent)";
+            _lookupByNameRadio.Location = new System.Drawing.Point(15, 25);
+            _lookupByNameRadio.Size = new System.Drawing.Size(360, 20);
+            _lookupByNameRadio.Checked = _settings.LookupMode == PropertyLookupMode.ByDisplayName;
+
+            _lookupByRevitIdRadio = new RadioButton();
+            _lookupByRevitIdRadio.Text = "By Revit Parameter ID (Revit models only, locale-independent)";
+            _lookupByRevitIdRadio.Location = new System.Drawing.Point(15, 55);
+            _lookupByRevitIdRadio.Size = new System.Drawing.Size(360, 20);
+            _lookupByRevitIdRadio.Checked = _settings.LookupMode == PropertyLookupMode.ByRevitParameterId;
+
+            lookupGroup.Controls.Add(_lookupByNameRadio);
+            lookupGroup.Controls.Add(_lookupByRevitIdRadio);
+            lookupGroup.ResumeLayout(false);
+
             // Buttons
             _okButton = new Button();
             _okButton.Text = "OK";
-            _okButton.Location = new System.Drawing.Point(240, 130);
+            _okButton.Location = new System.Drawing.Point(240, 230);
             _okButton.Size = new System.Drawing.Size(75, 23);
             _okButton.DialogResult = DialogResult.OK;
             _okButton.Click += OkButton_Click;
 
             _cancelButton = new Button();
             _cancelButton.Text = "Cancel";
-            _cancelButton.Location = new System.Drawing.Point(330, 130);
+            _cancelButton.Location = new System.Drawing.Point(330, 230);
             _cancelButton.Size = new System.Drawing.Size(75, 23);
             _cancelButton.DialogResult = DialogResult.Cancel;
 
             this.Controls.Add(parentGroup);
+            this.Controls.Add(lookupGroup);
             this.Controls.Add(_okButton);
             this.Controls.Add(_cancelButton);
             this.AcceptButton = _okButton;
@@ -98,12 +124,17 @@ namespace NavisTools.UI
         {
             _parameterNameTextBox.Text = _settings.ParentParameterName;
             _categoryNameTextBox.Text = _settings.ParentCategoryName;
+            _lookupByNameRadio.Checked = _settings.LookupMode == PropertyLookupMode.ByDisplayName;
+            _lookupByRevitIdRadio.Checked = _settings.LookupMode == PropertyLookupMode.ByRevitParameterId;
         }
 
         private void SaveSettings()
         {
             _settings.ParentParameterName = _parameterNameTextBox.Text.Trim();
             _settings.ParentCategoryName = _categoryNameTextBox.Text.Trim();
+            _settings.LookupMode = _lookupByRevitIdRadio.Checked 
+                ? PropertyLookupMode.ByRevitParameterId 
+                : PropertyLookupMode.ByDisplayName;
         }
 
         private void OkButton_Click(object sender, EventArgs e)
