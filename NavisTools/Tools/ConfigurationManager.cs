@@ -1,90 +1,48 @@
+using NavisTools.Interfaces;
+using NavisTools.Models;
+using NavisTools.Services;
 using System;
-using System.Windows.Forms;
-using NwApplication = Autodesk.Navisworks.Api.Application;
 
 namespace NavisTools.UI
 {
     /// <summary>
-    /// Manages configuration settings for NavisTools
+    /// Static facade for configuration management.
+    /// Delegates to IConfigurationService for backwards compatibility.
     /// </summary>
+    [Obsolete("Use IConfigurationService from ServiceLocator instead.")]
     public static class ConfigurationManager
     {
-        private static SettingsModel _settings;
-
-        static ConfigurationManager()
+        private static IConfigurationService GetService()
         {
-            _settings = new SettingsModel();
+            return ServiceLocator.Resolve<IConfigurationService>();
         }
 
         /// <summary>
-        /// Gets the current settings
+        /// Gets the current settings (for backwards compatibility).
         /// </summary>
-        public static SettingsModel Settings => _settings;
+        public static SettingsModel Settings
+        {
+            get
+            {
+                var service = GetService() as ConfigurationService;
+                return service?.Settings ?? new SettingsModel();
+            }
+        }
 
         /// <summary>
-        /// Opens the settings dialog
+        /// Opens the settings dialog.
         /// </summary>
         public static void OpenSettings()
         {
-            using (var form = new ConfigurationForm(_settings))
-            {
-                if (form.ShowDialog(NwApplication.Gui.MainWindow) == DialogResult.OK)
-                {
-                    // Settings were saved, apply them
-                    ApplySettings();
-                }
-            }
+            GetService()?.OpenSettings();
         }
 
         /// <summary>
-        /// Resets settings to defaults
+        /// Resets settings to defaults.
         /// </summary>
         public static void ResetToDefaults()
         {
-            var result = MessageBox.Show(
-                NwApplication.Gui.MainWindow,
-                "Are you sure you want to reset all settings to their default values?",
-                "Reset Settings",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
-            {
-                _settings.ResetToDefaults();
-                ApplySettings();
-                MessageBox.Show(
-                    NwApplication.Gui.MainWindow,
-                    "Settings have been reset to defaults.",
-                    "Settings Reset",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-            }
-        }
-
-        private static void ApplySettings()
-        {
-            // TODO: Apply settings to the application
-            // This would refresh any UI or behavior based on settings
-        }
-    }
-
-    /// <summary>
-    /// Model class for application settings
-    /// </summary>
-    public class SettingsModel
-    {
-        public string ParentParameterName { get; set; }
-        public string ParentCategoryName { get; set; }
-
-        public SettingsModel()
-        {
-            ResetToDefaults();
-        }
-
-        public void ResetToDefaults()
-        {
-            ParentParameterName = "ParentName";
-            ParentCategoryName = "Item";
+            GetService()?.ResetToDefaults();
         }
     }
 }

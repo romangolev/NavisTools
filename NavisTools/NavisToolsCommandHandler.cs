@@ -1,11 +1,10 @@
 ﻿using Autodesk.Navisworks.Api;
-using Autodesk.Navisworks.Api.Interop.ComApi;
 using Autodesk.Navisworks.Api.Plugins;
-using NavisTools.UI;
+using NavisTools.Commands;
+using NavisTools.Services;
 using System;
 using System.Windows.Forms;
 using Application = Autodesk.Navisworks.Api.Application;
-using ComApiBridge = Autodesk.Navisworks.Api.ComApi.ComApiBridge;
 
 
 namespace NavisTools
@@ -24,101 +23,59 @@ namespace NavisTools
 	{
 		public NavisToolsCommandHandler()
 		{
+			// Initialize services on first use
+			ServiceLocator.Initialize();
 		}
 
         public override int ExecuteCommand(string commandId, params string[] parameters)
         {
-            Document doc = Application.ActiveDocument;
-            InwOpState10 cdoc = ComApiBridge.State;
-            ModelItemCollection items = doc?.CurrentSelection?.SelectedItems ?? new ModelItemCollection();
-
-			switch (commandId)
+			try
 			{
-				case "ID_Button_AddParentName":
-					try
-					{
-						Tools.ParentToParam.ExecuteParentToParam(items, cdoc);
-						return 0;
-					}
-					catch (Exception ex)
-					{
-						int num = (int)MessageBox.Show(ex.Message);
-						return 0;
-					}
-				case "ID_Button_Total_Sums":
-					try
-					{
-						Tools.GetVolume.ExecuteTotalSumsCommand();
-						return 0;
-					}
-					catch (Exception ex)
-					{
-						int num = (int)MessageBox.Show(ex.Message);
-						return 0;
-					}
-				case "ID_SplitButton_Config":
-					{
-						ConfigurationManager.OpenSettings();
-						break;
-					}
-				case "ID_Button_ConfigSettings":
-					{
-						ConfigurationManager.OpenSettings();
-						break;
-					}
-				case "ID_Button_ConfigReset":
-					{
-						ConfigurationManager.ResetToDefaults();
-						break;
-					}
-				case "ID_Button_SelectionInfo":
-					{
-						try
-						{
-							if (!Application.IsAutomated)
-							{
-								var pluginRecord = Application.Plugins.FindPlugin("SelectionInfoPane.NavisTools");
-
-								if (pluginRecord is DockPanePluginRecord && pluginRecord.IsEnabled)
-								{
-									var dockPane = (pluginRecord.LoadedPlugin ?? pluginRecord.LoadPlugin()) as DockPanePlugin;
-
-									dockPane.ActivatePane();
-								}
-							}
-						}
-						catch (Exception ex)
-						{
-							MessageBox.Show(Application.Gui.MainWindow,
-								$"Error toggling Selection Info panel: {ex.Message}",
-								"Error",
-								MessageBoxButtons.OK,
-								MessageBoxIcon.Error);
-						}
-						break;
-					}
+				// Use command registry for command execution (Open/Closed Principle)
+				var command = CommandRegistry.Instance.GetCommand(commandId);
+				if (command != null)
+				{
+					return command.Execute();
 				}
+
+				// Handle split button that shares ID with settings
+				if (commandId == "ID_SplitButton_Config")
+				{
+					var settingsCommand = CommandRegistry.Instance.GetCommand(OpenSettingsCommand.Id);
+					return settingsCommand?.Execute() ?? 0;
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(Application.Gui.MainWindow, 
+					ex.Message, 
+					"Error", 
+					MessageBoxButtons.OK, 
+					MessageBoxIcon.Error);
+			}
+
 			return 0;
 		}
 
 		public override CommandState CanExecuteCommand(String commandId)
 		{
-			CommandState state = new CommandState
+			var state = new CommandState
 			{
 				IsVisible = true,
 				IsEnabled = true,
 				IsChecked = false
 			};
 
-			// Disable commands that require an open document
-			switch (commandId)
+			// Use command registry to check if command can execute
+			var command = CommandRegistry.Instance.GetCommand(commandId);
+			if (command != null)
 			{
-				case "ID_Button_AddParentName":
-				case "ID_Button_Total_Sums":
-					Document doc = Application.ActiveDocument;
-					bool hasDocument = doc != null && doc.Models.Count > 0;
-					state.IsEnabled = hasDocument;
-					break;
+				state.IsEnabled = command.CanExecute;
+			}
+			else if (commandId == "ID_SplitButton_Config")
+			{
+				// Split button is always enabled
+				state.IsEnabled = true;
 			}
 
 			return state;
