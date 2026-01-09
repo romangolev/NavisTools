@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{363C34BB-6E9A-4E5A-8425-8BC3A0F2629D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "Build\_build.csproj", "{363C34BB-6E9A-4E5A-8425-8BC3A0F2629D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Installer", "Installer\Installer.csproj", "{DF94A733-DC01-4969-A999-C92D82C248BA}"
 EndProject

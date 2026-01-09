@@ -1,24 +1,23 @@
 using Nuke.Common;
 using Nuke.Common.Git;
 using Nuke.Common.Tools.GitHub;
-using Nuke.Common.Tools.GitVersion;
 using Octokit;
 using Serilog;
 using System.Text.RegularExpressions;
+using System.Xml.Linq;
 
 partial class Build
 {
-    [GitVersion(NoFetch = true)] readonly GitVersion GitVersion;
     [Parameter] string GitHubToken { get; set; }
     [GitRepository] readonly GitRepository GitRepository;
 
     AbsolutePath ChangeLogPath => RootDirectory / "CHANGELOG.md";
+    AbsolutePath BuildPropsPath => RootDirectory / "Directory.Build.props";
 
     Target PublishGitHubRelease => _ => _
         .DependsOn(CreateInstaller)
         .Requires(() => GitHubToken)
         .Requires(() => GitRepository)
-        .Requires(() => GitVersion)
         .OnlyWhenStatic(() => GitRepository.IsOnMainOrMasterBranch())
         .OnlyWhenStatic(() => IsServerBuild)
         .Executes(() =>
@@ -37,17 +36,17 @@ partial class Build
                 throw new Exception("No installer files found to publish");
             }
 
-            var version = GetVersionFromInstaller(installerFiles[0]);
+            var version = GetVersionFromBuildProps();
             
             CheckTags(gitHubOwner, gitHubName, version);
             Log.Information("Publishing Release: {Version}", version);
 
-            var newRelease = new NewRelease(version)
+            var newRelease = new NewRelease($"v{version}")
             {
                 Name = $"NavisTools v{version}",
                 Body = CreateChangelog(version),
                 Draft = false,
-                TargetCommitish = GitVersion.Sha
+                TargetCommitish = GitRepository.Commit
             };
 
             var release = CreateRelease(gitHubOwner, gitHubName, newRelease);
@@ -56,18 +55,22 @@ partial class Build
             Log.Information("Release published successfully!");
         });
 
-    string GetVersionFromInstaller(string installerPath)
+    string GetVersionFromBuildProps()
     {
-        var fileName = Path.GetFileName(installerPath);
-        var match = Regex.Match(fileName, @"v(\d+\.\d+\.\d+)");
-        if (match.Success)
+        if (!File.Exists(BuildPropsPath))
         {
-            return match.Groups[1].Value;
+            throw new Exception($"Directory.Build.props not found at: {BuildPropsPath}");
         }
+
+        var doc = XDocument.Load(BuildPropsPath);
+        var versionPrefix = doc.Descendants("VersionPrefix").FirstOrDefault();
         
-        // Fallback to assembly version
-        var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-        return $"{version.Major}.{version.Minor}.{version.Build}";
+        if (versionPrefix == null)
+        {
+            throw new Exception("VersionPrefix not found in Directory.Build.props");
+        }
+
+        return versionPrefix.Value.Trim();
     }
 
     void CheckTags(string gitHubOwner, string gitHubName, string version)
