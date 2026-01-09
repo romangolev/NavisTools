@@ -1,0 +1,48 @@
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    tags:
+      - 'v*'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build and Release
+    runs-on: windows-2022
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      
+      - name: Run Nuke Build
+        run: ./build.cmd PublishGitHubRelease --GitHubToken ${{ secrets.GITHUB_TOKEN }}
+        shell: cmd
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+      - name: Upload Build Artifacts
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: NavisTools-Bundle
+          path: output/NavisTools.bundle/**/*
+          
+      - name: Upload Installer
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: NavisTools-Installer
+          path: output/installer/*.exe
