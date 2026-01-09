@@ -24,7 +24,7 @@ partial class Build : NukeBuild
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
-    [Solution] readonly Solution Solution;
+    [Solution("NavisTools.sln")] readonly Solution Solution;
 
     AbsolutePath SourceDirectory => RootDirectory / "NavisTools";
     AbsolutePath OutputDirectory => RootDirectory / "output";
