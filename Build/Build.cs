@@ -70,6 +70,15 @@ partial class Build : NukeBuild
             {
                 var configuration = $"Release N{version.Substring(2)}"; // "2022" -> "Release N22"
 
+                Serilog.Log.Information($"Restoring packages for configuration: {configuration}");
+
+                MSBuild(s => s
+                    .SetTargetPath(navisToolsProject)
+                    .SetTargets("Restore")
+                    .SetConfiguration(configuration)
+                    .SetMaxCpuCount(Environment.ProcessorCount)
+                    .SetNodeReuse(IsLocalBuild));
+
                 Serilog.Log.Information($"Building configuration: {configuration}");
 
                 MSBuild(s => s
