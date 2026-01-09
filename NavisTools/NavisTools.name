@@ -12,6 +12,18 @@ ID_NavisToolsRibbonTab.DisplayName=
 Navis Tools
 
 #
+# About Button
+#
+ID_Button_About.DisplayName=
+About
+
+ID_Button_About.ToolTip=
+About NavisTools
+
+ID_Button_About.ExtendedToolTip=
+Show information about NavisTools version and features
+
+#
 # Add Parent Name Button
 #
 ID_Button_AddParentName.DisplayName=

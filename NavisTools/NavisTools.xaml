@@ -29,6 +29,8 @@
 								KeyTip="AB"
 								ShowText="True"
 								Text="About"
+								Image="../Images/nt_16.ico"
+								LargeImage="../Images/nt_32.ico"
 								Orientation="Vertical"/>
 				<local:NWRibbonSplitButton x:Uid="SplitButton_Config" Id="ID_SplitButton_Config"
 								IsSynchronizedWithCurrentItem="False"

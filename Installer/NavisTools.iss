@@ -13,7 +13,7 @@
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
 ; Do not use the same AppId value in installers for other applications.
-AppId={{A3B5C8D9-1E2F-4A5B-8C9D-0E1F2A3B4C5D}
+AppId={A3B5C8D9-1E2F-4A5B-8C9D-0E1F2A3B4C5D}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 AppPublisher={#MyAppPublisher}
@@ -33,7 +33,9 @@ ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
 ; Require admin rights to write to ProgramData
 PrivilegesRequired=admin
-UninstallDisplayIcon={app}\uninstall.ico
+; Installer and uninstaller icons
+SetupIconFile=..\NavisTools\Images\nt_48.ico
+UninstallDisplayIcon={commonappdata}\Autodesk\ApplicationPlugins\NavisTools.bundle\Contents\nt_48.ico
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"

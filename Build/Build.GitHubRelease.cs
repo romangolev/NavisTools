@@ -1,5 +1,9 @@
+using System;
+using System.IO;
+using System.Linq;
 using Nuke.Common;
 using Nuke.Common.Git;
+using Nuke.Common.IO;
 using Nuke.Common.Tools.GitHub;
 using Octokit;
 using Serilog;
@@ -29,7 +33,7 @@ partial class Build
 
             var gitHubName = GitRepository.GetGitHubName();
             var gitHubOwner = GitRepository.GetGitHubOwner();
-            var installerFiles = Directory.GetFiles(OutputDirectory / "installer", "*.exe");
+            var installerFiles = (OutputDirectory / "installer").GlobFiles("*.exe").ToArray();
             
             if (installerFiles.Length == 0)
             {
@@ -62,7 +66,7 @@ partial class Build
             throw new Exception($"Directory.Build.props not found at: {BuildPropsPath}");
         }
 
-        var doc = XDocument.Load(BuildPropsPath);
+        var doc = XDocument.Load(BuildPropsPath.ToString());
         var versionPrefix = doc.Descendants("VersionPrefix").FirstOrDefault();
         
         if (versionPrefix == null)
@@ -104,7 +108,7 @@ partial class Build
         var versionRegex = new Regex($@"##\s*\[?{Regex.Escape(version)}\]?");
         var sectionStarted = false;
 
-        foreach (var line in File.ReadLines(ChangeLogPath))
+        foreach (var line in File.ReadLines(ChangeLogPath.ToString()))
         {
             if (sectionStarted)
             {
@@ -140,14 +144,14 @@ partial class Build
         return release;
     }
 
-    void UploadArtifacts(Release release, string[] artifacts)
+    void UploadArtifacts(Release release, AbsolutePath[] artifacts)
     {
         foreach (var artifact in artifacts)
         {
-            var fileName = Path.GetFileName(artifact);
+            var fileName = artifact.Name;
             Log.Information("Uploading artifact: {File}", fileName);
 
-            using var stream = File.OpenRead(artifact);
+            using var stream = File.OpenRead(artifact.ToString());
             var upload = new ReleaseAssetUpload
             {
                 FileName = fileName,
