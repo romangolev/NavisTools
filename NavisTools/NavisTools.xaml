@@ -35,12 +35,10 @@
 								Size="Standard"
 								KeyTip="CFG"
 								ShowText="True"
-								Text="Config"
+								Text=""
+								Image="../Images/config_16.ico"
+								LargeImage="../Images/config_32.ico"
 								Orientation="Horizontal">
-					<local:NWRibbonButton x:Uid="Button_ConfigMenuSettings" Id="ID_Button_ConfigSettings"
-									ShowText="True"
-									Text="Settings"
-									KeyTip="S"/>
 					<RibbonSeparator x:Uid="ConfigSeparator"/>
 					<local:NWRibbonButton x:Uid="Button_ConfigMenuReset" Id="ID_Button_ConfigReset"
 									ShowText="True"
@@ -56,6 +54,8 @@
 						KeyTip="TS"
 						ShowText="True"
 						Text="Total Sums"
+						Image="../Images/sum_16.ico"
+						LargeImage="../Images/sum_32.ico"
 						Orientation="Vertical"/>
 			</RibbonPanelSource>
 		</RibbonPanel>
@@ -66,6 +66,8 @@
 						KeyTip="SI"
 						ShowText="True"
 						Text="Selection&#10;Info"
+						Image="../Images/rectangle_16.ico"
+						LargeImage="../Images/rectangle_32.ico"
 						Orientation="Vertical"/>
 			</RibbonPanelSource>
 		</RibbonPanel>

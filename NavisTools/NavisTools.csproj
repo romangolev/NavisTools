@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\*.ico" />
+    <Content Include="Images\*.png" CopyToOutputDirectory="Always" />
     <None Include="PackageContents.xml" />
   </ItemGroup>
       <Target Name="CleanDebug" BeforeTargets="BeforeBuild" Condition="$(Configuration.Contains('Debug')) AND '$(SkipPostBuildEvent)' != 'true'">

@@ -14,11 +14,11 @@ namespace NavisTools
     [RibbonLayout("NavisTools.xaml")]
     [RibbonTab("ID_NavisToolsRibbonTab", DisplayName = "Navis Tools")]
     [Command("ID_Button_AddParentName", DisplayName = "Add Parent Name", ToolTip = "Add Parent Name", ExtendedToolTip = "Add parent name to selected items as a parameter")]
-    [Command("ID_Button_Total_Sums", DisplayName = "Total Sums", ToolTip = "Total Sums", ExtendedToolTip = "Calculate total sums for selected items")]
-    [Command("ID_SplitButton_Config", DisplayName = "Settings", ToolTip = "Configuration Settings", ExtendedToolTip = "Configure NavisTools settings")]
-    [Command("ID_Button_ConfigSettings", DisplayName = "Settings...")]
+    [Command("ID_Button_Total_Sums", DisplayName = "Total Sums", ToolTip = "Total Sums", ExtendedToolTip = "Calculate total sums for selected items", Icon = "sum_16.ico", LargeIcon = "sum_32.ico")]
+    [Command("ID_SplitButton_Config", DisplayName = "Settings", ToolTip = "Configuration Settings", ExtendedToolTip = "Configure NavisTools settings", Icon = "config_16.ico", LargeIcon = "config_32.ico")]
+    [Command("ID_Button_ConfigSettings", DisplayName = "Settings...", Icon = "config_16.ico")]
     [Command("ID_Button_ConfigReset", DisplayName = "Reset to Defaults")]
-	[Command("ID_Button_SelectionInfo", DisplayName = "Selection Info", ToolTip = "Selection Info Panel", ExtendedToolTip = "Show the selection info dockable panel")]
+	[Command("ID_Button_SelectionInfo", DisplayName = "Selection Info", ToolTip = "Selection Info Panel", ExtendedToolTip = "Show the selection info dockable panel", Icon = "rectangle_16.ico", LargeIcon = "rectangle_32.ico")]
 	public class NavisToolsCommandHandler : CommandHandlerPlugin
 	{
 		public NavisToolsCommandHandler()
