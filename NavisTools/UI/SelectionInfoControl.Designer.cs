@@ -87,7 +87,7 @@ namespace NavisTools.UI
             this._summaryGroup.Controls.Add(volumeLabel);
 
             this._volumeValueLabel = new System.Windows.Forms.Label();
-            this._volumeValueLabel.Text = "0.000 m³";
+            this._volumeValueLabel.Text = "0.000 m\u00B3";
             this._volumeValueLabel.Location = new System.Drawing.Point(120, innerY);
             this._volumeValueLabel.Size = new System.Drawing.Size(310, 20);
             this._volumeValueLabel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
@@ -104,7 +104,7 @@ namespace NavisTools.UI
             this._summaryGroup.Controls.Add(areaLabel);
 
             this._areaValueLabel = new System.Windows.Forms.Label();
-            this._areaValueLabel.Text = "0.00 m²";
+            this._areaValueLabel.Text = "0.00 m\u00B2";
             this._areaValueLabel.Location = new System.Drawing.Point(120, innerY);
             this._areaValueLabel.Size = new System.Drawing.Size(310, 20);
             this._areaValueLabel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
@@ -132,21 +132,11 @@ namespace NavisTools.UI
 
             yPos += 170;
 
-            // Refresh button
-            this._refreshButton = new System.Windows.Forms.Button();
-            this._refreshButton.Text = "Refresh";
-            this._refreshButton.Location = new System.Drawing.Point(4, yPos);
-            this._refreshButton.Size = new System.Drawing.Size(75, 25);
-            this._refreshButton.Click += RefreshButton_Click;
-            this.Controls.Add(this._refreshButton);
-
-            yPos += 30;
-
             // Items Group with ListView - adjusted to fill width
             this._itemsGroup = new System.Windows.Forms.GroupBox();
             this._itemsGroup.Text = "Selected Items";
             this._itemsGroup.Location = new System.Drawing.Point(4, yPos);
-            this._itemsGroup.Size = new System.Drawing.Size(442, 200);
+            this._itemsGroup.Size = new System.Drawing.Size(442, 250);
             this._itemsGroup.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right | System.Windows.Forms.AnchorStyles.Bottom;
 
             this._itemsListView = new System.Windows.Forms.ListView();
@@ -154,11 +144,10 @@ namespace NavisTools.UI
             this._itemsListView.FullRowSelect = true;
                 this._itemsListView.GridLines = true;
                 this._itemsListView.Location = new System.Drawing.Point(6, 20);
-                this._itemsListView.Size = new System.Drawing.Size(430, 174);
+                this._itemsListView.Size = new System.Drawing.Size(430, 224);
                 this._itemsListView.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right | System.Windows.Forms.AnchorStyles.Bottom;
 
-                // Adjusted column widths to better use available space
-                this._itemsListView.Columns.Add("Name", 220);
+                this._itemsListView.Columns.Add("Name", 90);
                 this._itemsListView.Columns.Add("Volume", 70, System.Windows.Forms.HorizontalAlignment.Right);
                 this._itemsListView.Columns.Add("Area", 70, System.Windows.Forms.HorizontalAlignment.Right);
                 this._itemsListView.Columns.Add("Length", 70, System.Windows.Forms.HorizontalAlignment.Right);
@@ -177,7 +166,6 @@ namespace NavisTools.UI
         private System.Windows.Forms.Label _areaValueLabel;
         private System.Windows.Forms.Label _lengthValueLabel;
         private System.Windows.Forms.ListView _itemsListView;
-        private System.Windows.Forms.Button _refreshButton;
         private System.Windows.Forms.GroupBox _summaryGroup;
         private System.Windows.Forms.GroupBox _itemsGroup;
     }

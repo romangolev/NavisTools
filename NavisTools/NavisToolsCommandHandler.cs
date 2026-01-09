@@ -30,7 +30,7 @@ namespace NavisTools
         {
             Document doc = Application.ActiveDocument;
             InwOpState10 cdoc = ComApiBridge.State;
-            ModelItemCollection items = doc.CurrentSelection.SelectedItems;
+            ModelItemCollection items = doc?.CurrentSelection?.SelectedItems ?? new ModelItemCollection();
 
 			switch (commandId)
 			{
@@ -109,6 +109,18 @@ namespace NavisTools
 				IsEnabled = true,
 				IsChecked = false
 			};
+
+			// Disable commands that require an open document
+			switch (commandId)
+			{
+				case "ID_Button_AddParentName":
+				case "ID_Button_Total_Sums":
+					Document doc = Application.ActiveDocument;
+					bool hasDocument = doc != null && doc.Models.Count > 0;
+					state.IsEnabled = hasDocument;
+					break;
+			}
+
 			return state;
 		}
 

@@ -1,5 +1,6 @@
 ﻿using Autodesk.Navisworks.Api;
 using Autodesk.Navisworks.Api.Plugins;
+using NavisTools.Helpers;
 using System;
 using System.Drawing;
 using System.Globalization;
@@ -15,8 +16,32 @@ namespace NavisTools.Tools
     {
         public static void ExecuteParentToParam(ModelItemCollection items, InwOpState10 cdoc)
         {
-			MessageBox.Show(Application.Gui.MainWindow, "Changing selection to parents");
-			//ParentToParam.SelectParents();
+            // Check if document is available
+            Document doc = Application.ActiveDocument;
+            if (doc == null || doc.Models.Count == 0)
+            {
+                MessageBox.Show(Application.Gui.MainWindow, 
+                    "Please open a document first.", 
+                    "No Document", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Check if any items are selected
+            if (items == null || items.Count == 0)
+            {
+                MessageBox.Show(Application.Gui.MainWindow, 
+                    "Please select at least one item.", 
+                    "No Selection", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+			// Show balloon notification
+			BalloonHelper.ShowBalloon("Adding Parent Name", $"Processing {items.Count} selected item(s)...");
+			// ParentToParam.SelectParents();
 
 			//Autodesk.Navisworks.Api.Application.ActiveDocument.CurrentSelection.SelectAll();
 			// ModelItemCollection oModelColl = Autodesk.Navisworks.Api.Application.ActiveDocument.CurrentSelection.SelectedItems;

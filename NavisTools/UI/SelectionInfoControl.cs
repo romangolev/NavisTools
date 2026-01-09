@@ -83,11 +83,6 @@ namespace NavisTools.UI
 				UpdateSelectionInfo();
 			}
 		}
-
-		private void RefreshButton_Click(object sender, EventArgs e)
-		{
-			UpdateSelectionInfo();
-		}
 		#endregion
 
 		#region UI Update Methods
@@ -101,8 +96,8 @@ namespace NavisTools.UI
 			// Update summary
 			_summaryLabel.Text = selectionInfo.Summary;
 			_countValueLabel.Text = selectionInfo.Count.ToString();
-			_volumeValueLabel.Text = $"{selectionInfo.TotalVolume:N3} m³";
-			_areaValueLabel.Text = $"{selectionInfo.TotalArea:N2} m²";
+			_volumeValueLabel.Text = $"{selectionInfo.TotalVolume:N3} m\u00B3";
+			_areaValueLabel.Text = $"{selectionInfo.TotalArea:N2} m\u00B2";
 			_lengthValueLabel.Text = $"{selectionInfo.TotalLength:N2} m";
 
 			// Populate list view with items
