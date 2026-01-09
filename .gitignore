@@ -366,4 +366,5 @@ FodyWeavers.xsd
 output/
 
 # Nuke temp files
-.nuke
+.nuke/temp
+.nuke/parameters.json
