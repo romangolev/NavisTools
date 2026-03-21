@@ -2,7 +2,7 @@
 <Project>
   <!-- Centralized version information for all projects -->
   <PropertyGroup>
-    <VersionPrefix>1.0.0</VersionPrefix>
+    <VersionPrefix>1.0.1</VersionPrefix>
     <AssemblyVersion>$(VersionPrefix).0</AssemblyVersion>
     <FileVersion>$(VersionPrefix).0</FileVersion>
     <InformationalVersion>$(VersionPrefix)</InformationalVersion>
