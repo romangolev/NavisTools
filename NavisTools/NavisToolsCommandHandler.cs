@@ -1,4 +1,4 @@
-﻿using Autodesk.Navisworks.Api;
+using Autodesk.Navisworks.Api;
 using Autodesk.Navisworks.Api.Plugins;
 using NavisTools.Commands;
 using NavisTools.Services;
@@ -20,6 +20,7 @@ namespace NavisTools
     [Command("ID_Button_ConfigSettings", DisplayName = "Settings...", Icon = "config_16.ico")]
     [Command("ID_Button_ConfigReset", DisplayName = "Reset to Defaults")]
 	[Command("ID_Button_SelectionInfo", DisplayName = "Selection Info", ToolTip = "Selection Info Panel", ExtendedToolTip = "Show the selection info dockable panel", Icon = "rectangle_16.ico", LargeIcon = "rectangle_32.ico")]
+	[Command("ID_Button_ConvertNwcToNwd", DisplayName = "Convert NWC to NWD", ToolTip = "Convert NWC Files to NWD", ExtendedToolTip = "Select and convert NWC files to NWD format")]
 	public class NavisToolsCommandHandler : CommandHandlerPlugin
 	{
 		public NavisToolsCommandHandler()

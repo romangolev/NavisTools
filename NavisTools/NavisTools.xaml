@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!-- BEGIN STANDARD SECTION DO NOT EDIT 
     except for ensuring x:Uid="CustomRibbonTab" has a unique ID
     -->
@@ -66,6 +66,12 @@
 						Text="Total Sums"
 						Image="../Images/sum_16.ico"
 						LargeImage="../Images/sum_32.ico"
+						Orientation="Vertical"/>
+				<local:NWRibbonButton x:Uid="Button_ConvertNwcToNwd" Id="ID_Button_ConvertNwcToNwd"
+						Size="Large"
+						KeyTip="CN"
+						ShowText="True"
+						Text="Convert&#10;NWC&#10;to NWD"
 						Orientation="Vertical"/>
 			</RibbonPanelSource>
 		</RibbonPanel>

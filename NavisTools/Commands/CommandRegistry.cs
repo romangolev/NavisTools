@@ -55,6 +55,7 @@ namespace NavisTools.Commands
             Register(new ResetSettingsCommand(documentProvider, selectionService, notificationService, configurationService));
             Register(new SelectionInfoCommand(documentProvider, selectionService, notificationService));
             Register(new AboutCommand(documentProvider, selectionService, notificationService));
+            Register(new ConvertNwcToNwdCommand(documentProvider, selectionService, notificationService));
         }
 
         /// <summary>
