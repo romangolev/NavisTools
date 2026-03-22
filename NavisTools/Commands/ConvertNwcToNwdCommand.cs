@@ -53,7 +53,6 @@ namespace NavisTools.Commands
                 }
 
                 var originalFile = document.CurrentFileName;
-                var exportOptions = new NwdExportOptions();
 
                 foreach (var inputFile in files)
                 {
@@ -68,7 +67,7 @@ namespace NavisTools.Commands
                         var outputPath = Path.ChangeExtension(inputPath, ".nwd");
 
                         document.OpenFile(inputPath);
-                        document.ExportToNwd(outputPath, exportOptions);
+                        document.SaveFile(outputPath);
                         document.Clear();
 
                         successCount++;
